@@ -1,0 +1,28 @@
+.SearchBox{
+    width: 400px;
+    height: 40px;
+background-color: #f0f5ff ; 
+border-radius: 6px;
+padding: 3px 15px;
+}
+body.dark .SearchBox {
+    background: #12254e;
+}
+body.dark .SearchBox input, body.dark .SearchBox input::-webkit-input-placeholder, body.dark .SearchBox svg {
+    color: #ffffffb3;
+}
+.SearchBox input{
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    padding-right: 5px;
+    font-size: 14px;
+    /* color: #292929; */
+}
+.SearchBox input::-webkit-input-placeholder{
+    color: rgba(0, 0, 0, 0.7);
+}
+.SearchBox svg{
+    font-size: 18px;
+    color: #292929;
+}

@@ -1,0 +1,127 @@
+.input {
+  width: 100%;
+}
+
+.input div {
+  background-color: #fff;
+}
+
+body.dark .input div {
+  background: #12254e;
+  color: #fff !important;
+}
+
+body.dark .input label {
+  color: #ffffffb3 !important;
+}
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+body.dark .card,
+body.dark .card__title {
+  background-color: #112143 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+.card__title {
+  color: #403e57;
+  font-size: 18px;
+  font-weight: 700;
+}
+.card-filters__title {
+  color: #403e57;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.table-responsive thead th {
+  background-color: #f1f1f1 !important;
+  text-align: center;
+}
+body.dark .table-responsive thead th,
+body.dark .table-responsive tbody td {
+  background-color: #ffffff1a !important;
+  color: #fff;
+}
+.table-responsive thead tr th:first-child,
+.table-responsive thead tr th:last-child {
+  width: 10%;
+}
+
+.modal-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(50%, 500px, 80%);
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+body.dark .modal-wrapper {
+  background-color: #071739 !important;
+  color: #fff;
+}
+.modal-title {
+  font-size: 1.25rem;
+  margin-bottom: 1rem !important;
+  text-align: center;
+}
+.modall-cross {
+  width: 25px;
+  height: 25px;
+}
+body.dark .modall-cross {
+  color: #fff;
+}
+.muirtl-eqeipb-MuiPaper-root-MuiPopover-paper-MuiMenu-paper::before{
+  background-color: transparent !important;
+  right: 14px;
+}
+.loader {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: block;
+  margin:15px auto;
+  position: relative;
+  color: var(--e-global-color-primary);
+  left: -100px;
+  box-sizing: border-box;
+  animation: shadowRolling 2s linear infinite;
+}
+
+@keyframes shadowRolling {
+  0% {
+    box-shadow: 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+  }
+  12% {
+    box-shadow: 100px 0 var(--e-global-color-primary), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+  }
+  25% {
+    box-shadow: 110px 0 var(--e-global-color-primary), 100px 0 var(--e-global-color-primary), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+  }
+  36% {
+    box-shadow: 120px 0 var(--e-global-color-primary), 110px 0 var(--e-global-color-primary), 100px 0 var(--e-global-color-primary), 0px 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 130px 0 var(--e-global-color-primary), 120px 0 var(--e-global-color-primary), 110px 0 var(--e-global-color-primary), 100px 0 var(--e-global-color-primary);
+  }
+  62% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 var(--e-global-color-primary), 120px 0 var(--e-global-color-primary), 110px 0 var(--e-global-color-primary);
+  }
+  75% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 130px 0 var(--e-global-color-primary), 120px 0 var(--e-global-color-primary);
+  }
+  87% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 130px 0 var(--e-global-color-primary);
+  }
+  100% {
+    box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0);
+  }
+}

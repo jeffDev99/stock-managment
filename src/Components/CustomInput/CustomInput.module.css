@@ -1,0 +1,57 @@
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.inputWithIcon {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  font-size: 14px;
+  font-weight: 600;
+  height: 45px;
+  outline: none !important;
+  padding-left: 40px;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  color: #495057;
+  display: block;
+  padding: 0.375rem 0.75rem;
+  transition: var(--main-transition);
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.inputWithIcon.active {
+  border: 1px solid var(--e-global-color-1f25305) !important;
+}
+
+.icon.iconActive {
+color:var(--e-global-color-1f25305) !important ;
+}
+.inputWithIcon .icon {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  color: #aaa;
+    transition: var(--main-transition);
+
+}
+
+.inputWithIcon input {
+  border: none;
+  flex-grow: 1;
+}
+
+.inputWithIcon input:focus {
+  outline: none;
+}
+
+.inputWithIcon input:focus .inputWithIcon .icon {
+  color: var(--e-global-color-1f25305) !important;
+}
+.error {
+  color: tomato;
+  font-size: 12px;
+  margin-top: 5px;
+}

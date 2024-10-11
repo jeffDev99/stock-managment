@@ -1,0 +1,176 @@
+
+header {
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  background: #ffffffe6;
+  width: 100%;
+  padding: 0.4rem 0;
+  position: fixed;
+  min-height: 60px;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+body.dark header {
+  background: #112143 !important;
+}
+body.dark header button.rounded-circle {
+  background: #112755 !important;
+}
+body.dark header button.rounded-circle svg {
+  color: #fff !important;
+}
+.header-logo__img {
+  width: 125px;
+  filter: invert(1);
+}
+
+body.dark .header-logo__img {
+  filter: invert(0);
+}
+.header__menu-btn {
+  color: #000;
+  min-width: 40px !important;
+  width: 40px;
+  height: 40px !important;
+  background-color: #f0f5ff !important;
+}
+.header__menu-btn svg {
+  color: #000;
+  font-size: 18px;
+  transition: 0.2s ease-in-out all;
+}
+
+@media screen and (max-width: 992px) {
+  .header__menu-btn {
+    min-width: 35px !important;
+    width: 35px;
+    height: 35px !important;
+  }
+  .header__menu-btn svg {
+    font-size: 14px;
+  }
+}
+.header__menu-btn:hover svg {
+  color: var(--e-global-color-primary);
+}
+
+#account-menu li {
+  font-size: 15px !important;
+  padding: 12px 15px !important ;
+}
+
+#account-menu li svg {
+  font-size: 20px !important;
+}
+body.dark .MuiPaper-elevation,
+body.dark .css-eqeipb-MuiPaper-root-MuiPopover-paper-MuiMenu-paper::before {
+  background-color: #12254e !important;
+}
+body.dark .MuiPaper-elevation li *,
+body.dark .MuiPaper-elevation li {
+  color: rgba(255, 255, 255, 0.8);
+}
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+  min-width: 0 !important;
+}
+.myAcc__userImg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--e-global-color-primary);
+  padding: 2px;
+  border-radius: 100%;
+}
+
+@media screen and (max-width: 992px) {
+  .myAcc__userImg {
+    width: 35px;
+    height: 35px;
+  }
+}
+.myAcc__userImg .rounded-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+}
+
+.myAcc__userImg img {
+  object-fit: cover;
+  width: 100%;
+}
+.userInfo {
+  padding-right: 10px;
+  text-align: right !important;
+  color: #000 !important;
+}
+body.dark .userInfo {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+.userInfo h4 {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.userInfo p {
+  font-size: 12px;
+  opacity: 0.7;
+}
+#notifications .MuiPaper-elevation {
+  left: 2% !important;
+  width: 250px !important;
+  right: auto !important;
+  overflow: hidden;
+}
+.head {
+  font-size: 17px;
+  font-weight: 600px;
+}
+.dropDown-info {
+  padding-right: 1rem;
+}
+.dropDown-info h4 {
+  font-size: 14px;
+  white-space: break-spaces;
+  line-height: 1.5rem;
+}
+.dropDown-info li.MuiButtonBase-root {
+  background-color: #ebf6ff !important;
+  color: #000 !important;
+  padding: 10px 15px !important;
+}
+.dropDown-info h4 strong {
+  font-weight: bold;
+}
+.dropDown-info h4 p {
+  font-size: 12px;
+  font-weight: bold;
+}
+.text-sky {
+  color: var(--e-global-color-primary);
+}
+.dropdown-list__scroll {
+  max-height: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.dropdown-list__btn {
+  background-color: var(--e-global-color-primary) !important ;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff !important;
+  border-radius: 5px;
+}
+.dropdown-list__scroll .MuiMenuItem-root {
+  background-color: #6ec1e444;
+}

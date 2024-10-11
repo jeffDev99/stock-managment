@@ -1,0 +1,42 @@
+.authWrapper {
+  background: #fff;
+  min-height: 100vh;
+  padding: 35px 25px;
+  position: relative;
+  width: 100%;
+  background-image: url("/public/images/bg.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom center;
+  background-color: #164856;
+}
+
+.authBox {
+  height: auto;
+  margin: auto;
+  width: 100%;
+}
+.authLogo {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+}
+.form-wrapper {
+  background: #f0f0f0;
+  height: auto;
+  padding: 35px;
+  position: relative;
+  width: 100%;
+  z-index: 100;
+  border-radius: 10px;
+  margin: 20px 0;
+  border: 2px solid var(--e-global-color-1f25305);
+}
+@media screen and (min-width: 948px) {
+  .authWrapper {
+    background-size: 100%;
+  }
+.authBox {
+  width: 350px;
+}
+}

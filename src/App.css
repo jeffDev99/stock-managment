@@ -1,0 +1,93 @@
+/* fonts */
+@font-face {
+  font-family: 'Vazirmatn';
+  font-weight: 100;
+  font-style: normal;
+  src: url("./assets/fonts/Vazirmatn-Thin.ttf");
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  font-weight: 200;
+  font-style: normal;
+  src: url("./assets/fonts/Vazirmatn-ExtraLight.ttf");
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  font-weight: 300;
+  font-style: normal;
+  src: url("./assets/fonts/Vazirmatn-Light.ttf");
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  font-weight: 400;
+  font-style: normal;
+  src: url("./assets/fonts/Vazirmatn-Regular.ttf");
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  font-weight: 500;
+  font-style: normal;
+  src: url("./assets/fonts/Vazirmatn-Medium.ttf");
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  font-weight: 600;
+  font-style: normal;
+  src: url("./assets/fonts/Vazirmatn-SemiBold.ttf");
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  font-weight: 700;
+  font-style: normal;
+  src: url("./assets/fonts/Vazirmatn-Bold.ttf");
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  font-weight: 800;
+  font-style: normal;
+  src: url("./assets/fonts/Vazirmatn-ExtraBold.ttf");
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  font-weight: 900;
+  font-style: normal;
+  src: url("./assets/fonts/Vazirmatn-Black.ttf");
+  font-style: normal;
+}
+
+/* normalise */
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Vazirmatn", sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+}
+/* global css */
+.disableBtn {
+  opacity: 0.8;
+}
+.form-btn {
+  background-color: var(--e-global-color-fa7c76c);
+  color: #fff;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem;
+  transition: var(--main-transition);
+}
+
+.form-btn:hover {
+  background-color: var(--e-global-color-0f2f38);
+}
+
