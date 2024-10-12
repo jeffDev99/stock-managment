@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 import api from "../../Services/config";
@@ -10,13 +9,14 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 // import { createFiscalYear } from "../../Services/FiscalYear/FiscalYear";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GrDropbox } from "react-icons/gr";
 import "./AddStock.css";
 
 export default function AddStock() {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate()
   useEffect(() => {
     (async () => {
       try {
@@ -54,6 +54,7 @@ export default function AddStock() {
               text: "شما انبار خود را با موفقیت ثبت کردید",
             });
             form.resetForm();
+            navigate("/dashboard/stock")
           } else if (response.status === 400) {
             Swal.fire({
               icon: "error",

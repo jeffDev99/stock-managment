@@ -33,6 +33,32 @@ export default function SideBar() {
   return (
     <aside className="sidebar">
       <ul className="sidebar-list list-unstyled">
+        
+      <li className="sidebar-list__item">
+          <Button className={`sidebar-list__btn w-100 ${activeTab === 1 && isToggleSubMenu === true ? "active" : ""}`} onClick={() => isOpenSubmenu(1)}>
+            <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
+              <BsBoxes />
+            </span>
+            انبار
+            <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
+              <FaAngleLeft></FaAngleLeft>
+            </span>
+          </Button>
+          <div className={`sidebar-submenu-wrapper ${activeTab === 1 && isToggleSubMenu === true ? "sub-collapse" : "sub-collapsed"}`}>
+            <ul className="sidebar-submenu list-unstyled">
+              <li className="sidebar-submenu__item">
+                <NavLink className="sidebar-list__link" to="stock" end>
+                  <GrDropbox /> لیست  انبار ها
+                </NavLink>
+              </li>
+              <li className="sidebar-submenu__item">
+                <NavLink className="sidebar-list__link" to="addstock" end>
+                  <RiInboxArchiveLine /> اضافه کردن انبار جدید
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </li>
         <li className="sidebar-list__item">
           <Button className={`sidebar-list__btn w-100 ${activeTab === 2 && isToggleSubMenu === true ? "active" : ""}`} onClick={() => isOpenSubmenu(2)}>
             <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
@@ -53,31 +79,6 @@ export default function SideBar() {
               <li className="sidebar-submenu__item">
                 <NavLink to={"newUser"} end className="sidebar-list__link">
                   <HiOutlineUserPlus /> ثبت نام کاربر جدید
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li className="sidebar-list__item">
-          <Button className={`sidebar-list__btn w-100 ${activeTab === 1 && isToggleSubMenu === true ? "active" : ""}`} onClick={() => isOpenSubmenu(1)}>
-            <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
-              <BsBoxes />
-            </span>
-            انبار
-            <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
-              <FaAngleLeft></FaAngleLeft>
-            </span>
-          </Button>
-          <div className={`sidebar-submenu-wrapper ${activeTab === 1 && isToggleSubMenu === true ? "sub-collapse" : "sub-collapsed"}`}>
-            <ul className="sidebar-submenu list-unstyled">
-              <li className="sidebar-submenu__item">
-                <NavLink className="sidebar-list__link" to="stock" end>
-                  <GrDropbox /> لیست سال انبار ها
-                </NavLink>
-              </li>
-              <li className="sidebar-submenu__item">
-                <NavLink className="sidebar-list__link" to="addstock" end>
-                  <RiInboxArchiveLine /> اضافه کردن انبار جدید
                 </NavLink>
               </li>
             </ul>

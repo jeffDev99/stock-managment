@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 import api from "../../Services/config";
@@ -10,68 +9,77 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 // import { createFiscalYear } from "../../Services/FiscalYear/FiscalYear";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { GrDropbox } from "react-icons/gr";
 import "./EditStock.css";
 
-export default function EditStock() {
+export default function AddStock() {
   const [loading, setLoading] = useState(true);
-  const [mainstock, setMainstock] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [initialValues, setInitialValues] = useState({
+    stockName: "",
+    stockOwnerUserName: "",
+  });
   const { id } = useParams();
-  (async () => {
-    try {
-      const res = await api.get(`/api/Stock/getstockbyid/${id}`);
-      setMainstock(res.data)
-    } catch (e) {
-      if (e.code === "ERR_NETWORK") {
-        Swal.fire({
-          icon: "error",
-          title: "خطای اینترنت",
-          text: "لطفا وضعیت اتصال خود را بررسی کنید",
-        }).then(() => {
-          setLoading(false);
+  const navigate = useNavigate()
+  useEffect(() => {
+    const fetchStockData = async () => {
+      try {
+        const res = await api.get(`/api/Stock/getstockbyid/${id}`);
+        setInitialValues({
+          stockName: res.data.stockName || "",
+          stockOwnerUserName: res.data.stockOwnerUserName || "",
         });
+      } catch (error) {
+        console.error("Error fetching stock data:", error);
+      } finally {
+        setLoading(false);
       }
-    }
-  })();
-  
+    };
+
+    fetchStockData();
+  }, [id]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await api.get(`/api/Auth/getusers`);
+        setUsers(res.data);
+      } catch (e) {
+        if (e.code === "ERR_NETWORK") {
+          Swal.fire({
+            icon: "error",
+            title: "خطای اینترنت",
+            text: "لطفا وضعیت اتصال خود را بررسی کنید",
+          }).then(() => {
+            setLoading(false);
+          });
+        }
+      }
+    })();
+  }, []);
   const form = useFormik({
-    initialValues: {
-      fiscalYearName: "",
-      year: "",
-      startingDate: "",
-      finishDate: "",
-      isClosed: true,
-      isStarted: 0,
-    },
+    initialValues,
+    enableReinitialize:true,
     onSubmit: (values) => {
       (async () => {
         try {
-          const valueWithId = { ...values, fiscalYearID: uuidv4() };
-
-          const response = await fetch(createFiscalYear(), {
-            method: "POST",
-            headers: {
-              accept: "*/*",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(valueWithId),
+          const response = await api.put(`api/Stock/editstock/${id}`, {
+            stockName: values.stockName,
+            stockOwnerUserName: values.stockOwnerUserName,
           });
-          const data = await response.text();
+          console.log(response)
           if (response.status === 200) {
             Swal.fire({
               icon: "success",
-              title: "سال مالی ثبت شد",
-              text: "شما سال مالی خود را با موفقیت ثبت کردید",
-            });
-            resetFormData();
+              title: "انبار با موفقیت ویرایش  شد",
+              text: "اطلاعات انبار شما با موفقیت ویرایش شد",
+            }).then(res=>navigate("/dashboard/stock"));
           } else if (response.status === 400) {
             Swal.fire({
               icon: "error",
-              title: "خطا در ثبت سال مالی",
+              title: "خطا در ثبت انبار",
               text: "لطفا ورودی ها خود را بررسی کنید",
             });
-            resetFormData();
           }
         } catch (e) {
           console.log(e);
@@ -79,24 +87,10 @@ export default function EditStock() {
       })();
     },
     validationSchema: Yup.object().shape({
-      fiscalYearName: Yup.string().min(5, "سال مالی باید حداقل 5 کاراکتر باشد").max(100, "سال مالی باید حداکثر 100 کاراکتر باشد").required("سال مالی الزامی است"),
-      year: Yup.number().required("سال الزامی است"),
-      startingDate: Yup.string().required("تاریخ شروع سال مالی الزامی است"),
-      finishDate: Yup.string().required("تاریخ پایان سال مالی الزامی است"),
-      isStarted: Yup.number().required("این فیلد الزامی است"),
+      stockName: Yup.string().min(5, "نام انبار باید حداقل 5 کاراکتر باشد").max(100, "نام انبار باید حداکثر 100 کاراکتر باشد").required("نام انبار الزامی است"),
+      stockOwnerUserName: Yup.string().required("این فیلد الزامی است"),
     }),
   });
-
-  const resetFormData = () => {
-    form.setValues({
-      fiscalYearName: "",
-      year: "",
-      startingDate: "",
-      finishDate: "",
-      isClosed: true,
-      isStarted: 0,
-    });
-  };
 
   return (
     <>
@@ -105,7 +99,7 @@ export default function EditStock() {
           <h4 className="card__title mb-3">
             ویرایش انبار
             <Button color="primary" variant="contained" startIcon={<GrDropbox />} className="table-actions__btn me-3">
-              <Link to={"/fiscalyearlist"} style={{ color: "inherit", textDecoration: "none" }}>
+              <Link to={"/dashboard/stock"} style={{ color: "inherit", textDecoration: "none" }}>
                 لیست انبارها
               </Link>
             </Button>
@@ -117,79 +111,47 @@ export default function EditStock() {
             <div className="col-12 col-md-6 mb-3">
               <TextField
                 type="text"
-                label="نام سال مالی"
-                name="fiscalYearName"
+                label="نام انبار"
+                name="stockName"
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
-                value={form.values.fiscalYearName}
-                error={form.touched.fiscalYearName && Boolean(form.errors.fiscalYearName)}
-                helperText={form.touched.fiscalYearName && form.errors.fiscalYearName}
+                value={form.values.stockName}
+                error={form.touched.stockName && Boolean(form.errors.stockName)}
+                helperText={form.touched.stockName && form.errors.stockName}
                 className="input"
               />
             </div>
             <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="number"
-                label="سال"
-                name="year"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.year}
-                error={form.touched.year && Boolean(form.errors.year)}
-                helperText={form.touched.year && form.errors.year}
-                className="input"
-              />
-            </div>
-            <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="تاریخ شروع"
-                name="startingDate"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.startingDate}
-                error={form.touched.startingDate && Boolean(form.errors.startingDate)}
-                helperText={form.touched.startingDate && form.errors.startingDate}
-                className="input"
-              />
-            </div>
-            <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="تاریخ پایان"
-                name="finishDate"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.finishDate}
-                error={form.touched.finishDate && Boolean(form.errors.finishDate)}
-                helperText={form.touched.finishDate && form.errors.finishDate}
-                className="input"
-              />
-            </div>
-            <div className="col-12 col-md-6 mb-3">
-              <FormControl className="input" fullWidth error={form.touched.isStarted && Boolean(form.errors.isStarted)}>
-                <InputLabel id="demo-simple-select-label">شروع شده؟</InputLabel>
+              <FormControl className="input" fullWidth error={form.touched.stockOwnerUserName && Boolean(form.errors.stockOwnerUserName)}>
+                <InputLabel id="demo-simple-select-label">نام کاربری مالک انبار </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={form.values.isStarted}
-                  name="isStarted"
+                  value={form.values.stockOwnerUserName}
+                  name="stockOwnerUserName"
                   label="شروع شده؟"
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
                 >
-                  <MenuItem value={1}>بله</MenuItem>
-                  <MenuItem value={0}>خیر</MenuItem>
+                  {users.length === 0 ? (
+                    <MenuItem disabled>کاربری موجود نیست</MenuItem>
+                  ) : (
+                    users.map((item) => (
+                      <MenuItem value={item.userName} key={item.id}>
+                        {item.userName}
+                      </MenuItem>
+                    ))
+                  )}
                 </Select>
-                {form.touched.isStarted && form.errors.isStarted && <FormHelperText>{form.errors.isStarted}</FormHelperText>}
+                {form.touched.stockOwnerUserName && form.errors.stockOwnerUserName && <FormHelperText>{form.errors.stockOwnerUserName}</FormHelperText>}
               </FormControl>
             </div>
             <div className="col-12 col-md-12 text-center my-3">
               <Button className="ms-1" variant="contained" color="success" type="submit">
                 ثبت
               </Button>
-              <Button onClick={resetFormData} variant="contained" color="error" type="button">
-                بازنشانی
+              <Button onClick={()=>navigate("/dashboard/stock")} variant="text" color="error" type="button">
+                بازگشت
               </Button>
             </div>
           </div>
