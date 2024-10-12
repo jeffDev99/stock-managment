@@ -183,7 +183,7 @@ export default function Stock() {
           <h4 className="card__title">
             لیست انبار ها
             <Button color="primary" variant="contained" startIcon={<IoMdAdd />} className="table-actions__btn me-3">
-              <Link to={"/addstock"} style={{ color: "inherit", textDecoration: "none" }}>
+              <Link to={"/dashboard/addstock"} style={{ color: "inherit", textDecoration: "none" }}>
                 اضافه کردن
               </Link>
             </Button>

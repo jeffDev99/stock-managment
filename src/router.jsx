@@ -11,9 +11,9 @@ import NewUser from "./pages/NewUser/NewUser"
 import Users from "./pages/Users/Users"
 // Auth Components
 import Login from "./Pages/Login/Login";
-import Register from "./Pages/Register/Register";
+// import Register from "./Pages/Register/Register";
 // protected Components
-import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+// import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 let routes = [
   // dashboard
   {

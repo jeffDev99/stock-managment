@@ -38,36 +38,29 @@ export default function AddStock() {
   const form = useFormik({
     initialValues: {
       stockName: "",
-      stockOwnerUserName: "" || users[0].userName,
+      stockOwnerUserName: users.length > 0 ? users[0].userName : "",
     },
     onSubmit: (values) => {
       (async () => {
         try {
-          const valueWithId = { ...values, fiscalYearID: uuidv4() };
-
-          const response = await fetch(createFiscalYear(), {
-            method: "POST",
-            headers: {
-              accept: "*/*",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(valueWithId),
+          const response = await api.post("/api/Stock/createstock", {
+            stockName: values.stockName,
+            stockOwnerUserName: values.stockOwnerUserName,
           });
-          const data = await response.text();
           if (response.status === 200) {
             Swal.fire({
               icon: "success",
               title: "انبار ثبت شد",
               text: "شما انبار خود را با موفقیت ثبت کردید",
             });
-            resetFormData();
+            form.resetForm();
           } else if (response.status === 400) {
             Swal.fire({
               icon: "error",
               title: "خطا در ثبت انبار",
               text: "لطفا ورودی ها خود را بررسی کنید",
             });
-            resetFormData();
+            form.resetForm();
           }
         } catch (e) {
           console.log(e);
@@ -94,7 +87,7 @@ export default function AddStock() {
           <h4 className="card__title mb-3">
             ایحاد انبار
             <Button color="primary" variant="contained" startIcon={<GrDropbox />} className="table-actions__btn me-3">
-              <Link to={"/fiscalyearlist"} style={{ color: "inherit", textDecoration: "none" }}>
+              <Link to={"/dashboard/stock"} style={{ color: "inherit", textDecoration: "none" }}>
                 لیست انبارها
               </Link>
             </Button>
@@ -129,7 +122,9 @@ export default function AddStock() {
                   onBlur={form.handleBlur}
                 >
                   {users.map((item) => (
-                    <MenuItem value={item.userName}>{item.userName}</MenuItem>
+                    <MenuItem value={item.userName} key={item.id}>
+                      {item.userName}
+                    </MenuItem>
                   ))}
                 </Select>
                 {form.touched.stockOwnerUserName && form.errors.stockOwnerUserName && <FormHelperText>{form.errors.stockOwnerUserName}</FormHelperText>}
