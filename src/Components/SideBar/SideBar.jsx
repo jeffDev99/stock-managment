@@ -4,11 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 // components
 import { MyContext } from "../../Layout/Dashboard/Dashboard";
 // icons
-import { FaBoxesPacking } from "react-icons/fa6";
 import { FaAngleLeft } from "react-icons/fa6";
 import { IoMdLogOut } from "react-icons/io";
-import { AiFillDashboard } from "react-icons/ai";
-import { IoDocumentsOutline } from "react-icons/io5";
 import { HiOutlineUserPlus } from "react-icons/hi2";
 import { HiOutlineUser } from "react-icons/hi2";
 import { HiOutlineUsers } from "react-icons/hi2";
@@ -18,6 +15,7 @@ import { GrDropbox } from "react-icons/gr";
 import { RiInboxArchiveLine } from "react-icons/ri";
 import { MdMoreTime } from "react-icons/md";
 import { RiTimelineView } from "react-icons/ri";
+import { HiListBullet } from "react-icons/hi2"; 
 
 // styles
 import "./SideBar.css";
@@ -33,8 +31,7 @@ export default function SideBar() {
   return (
     <aside className="sidebar">
       <ul className="sidebar-list list-unstyled">
-        
-      <li className="sidebar-list__item">
+        <li className="sidebar-list__item">
           <Button className={`sidebar-list__btn w-100 ${activeTab === 1 && isToggleSubMenu === true ? "active" : ""}`} onClick={() => isOpenSubmenu(1)}>
             <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
               <BsBoxes />
@@ -48,12 +45,37 @@ export default function SideBar() {
             <ul className="sidebar-submenu list-unstyled">
               <li className="sidebar-submenu__item">
                 <NavLink className="sidebar-list__link" to="stock" end>
-                  <GrDropbox /> لیست  انبار ها
+                <HiListBullet /> لیست انبار ها
                 </NavLink>
               </li>
               <li className="sidebar-submenu__item">
                 <NavLink className="sidebar-list__link" to="addstock" end>
                   <RiInboxArchiveLine /> اضافه کردن انبار جدید
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li className="sidebar-list__item">
+          <Button className={`sidebar-list__btn w-100 ${activeTab === 4 && isToggleSubMenu === true ? "active" : ""}`} onClick={() => isOpenSubmenu(4)}>
+            <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
+            <GrDropbox />
+            </span>
+            محصول
+            <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
+              <FaAngleLeft></FaAngleLeft>
+            </span>
+          </Button>
+          <div className={`sidebar-submenu-wrapper ${activeTab === 4 && isToggleSubMenu === true ? "sub-collapse" : "sub-collapsed"}`}>
+            <ul className="sidebar-submenu list-unstyled">
+              <li className="sidebar-submenu__item">
+                <NavLink className="sidebar-list__link" to="product" end>
+                <HiListBullet /> لیست محصولات
+                </NavLink>
+              </li>
+              <li className="sidebar-submenu__item">
+                <NavLink className="sidebar-list__link" to="addproduct" end>
+                  <RiInboxArchiveLine /> اضافه کردن محصول جدید
                 </NavLink>
               </li>
             </ul>
@@ -98,7 +120,7 @@ export default function SideBar() {
             <ul className="sidebar-submenu list-unstyled">
               <li className="sidebar-submenu__item">
                 <NavLink className="sidebar-list__link" to="/dashboard" end>
-                  <RiTimelineView />  لیست شیفت ها 
+                  <RiTimelineView /> لیست شیفت ها
                 </NavLink>
               </li>
               <li className="sidebar-submenu__item">

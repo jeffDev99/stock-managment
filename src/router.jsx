@@ -7,8 +7,12 @@ import Stock from "./Pages/Stock/Stock";
 import AddStock from "./Pages/AddStock/AddStock";
 import EditStock from "./Pages/EditStock/EditStock";
 import NotFound from "./Pages/NotFound/NotFound";
-import NewUser from "./pages/NewUser/NewUser"
-import Users from "./pages/Users/Users"
+import NewUser from "./pages/NewUser/NewUser";
+import Users from "./pages/Users/Users";
+import Product from "./pages/Product/Product";
+import EditProduct from "./pages/EditProduct/EditProduct";
+import AddProduct from "./pages/AddProduct/AddProduct";
+
 // Auth Components
 import Login from "./Pages/Login/Login";
 // import Register from "./Pages/Register/Register";
@@ -25,11 +29,14 @@ let routes = [
     ),
     children: [
       { path: "", element: <Navigate to={"stock"} /> },
-      { path: "stock", element: <Stock /> },
-      { path: "newUser", element: <NewUser /> },
       { path: "Users", element: <Users /> },
+      { path: "newUser", element: <NewUser /> },
+      { path: "stock", element: <Stock /> },
       { path: "addstock", element: <AddStock /> },
       { path: "editstock/:id", element: <EditStock /> },
+      { path: "product", element: <Product /> },
+      { path: "addproduct", element: <AddProduct /> },
+      { path: "editproduct/:id", element: <EditProduct /> },
       { path: "*", element: <NotFound /> },
     ],
   },
