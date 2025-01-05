@@ -69,7 +69,7 @@ export default function SideBar() {
           <div className={`sidebar-submenu-wrapper ${activeTab === 4 && isToggleSubMenu === true ? "sub-collapse" : "sub-collapsed"}`}>
             <ul className="sidebar-submenu list-unstyled">
               <li className="sidebar-submenu__item">
-                <NavLink className="sidebar-list__link" to="product" end>
+                <NavLink className="sidebar-list__link" to="product/all" end>
                 <HiListBullet /> لیست محصولات
                 </NavLink>
               </li>
@@ -119,12 +119,12 @@ export default function SideBar() {
           <div className={`sidebar-submenu-wrapper ${activeTab === 3 && isToggleSubMenu === true ? "sub-collapse" : "sub-collapsed"}`}>
             <ul className="sidebar-submenu list-unstyled">
               <li className="sidebar-submenu__item">
-                <NavLink className="sidebar-list__link" to="/dashboard" end>
+                <NavLink className="sidebar-list__link" to="shift" end>
                   <RiTimelineView /> لیست شیفت ها
                 </NavLink>
               </li>
               <li className="sidebar-submenu__item">
-                <NavLink className="sidebar-list__link" to="addstock" end>
+                <NavLink className="sidebar-list__link" to="addshift" end>
                   <MdMoreTime /> اضافه کردن شیفت جدید
                 </NavLink>
               </li>

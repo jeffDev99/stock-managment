@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import SearchBox from "../SearchBox/SearchBox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -18,6 +18,7 @@ import { MdOutlineMenu } from "react-icons/md";
 import { FiBell } from "react-icons/fi";
 import { FaShieldAlt } from "react-icons/fa";
 import { MyContext } from "../../Layout/Dashboard/Dashboard";
+import Cookies from "js-cookie";
 
 import "../../var.css";
 import "./TopBar.css";
@@ -25,6 +26,7 @@ import "./TopBar.css";
 export default function TopBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isOpenNotifications, setIsOpenNotifications] = useState(null);
+    const navigate = useNavigate();
 
   const context = useContext(MyContext);
 
@@ -36,6 +38,8 @@ export default function TopBar() {
   };
   const handleCloseMyAcc = () => {
     setAnchorEl(null);
+    Cookies.remove("token");
+    navigate("/");
   };
   const handleOpenNotifications = (event) => {
     setIsOpenNotifications(event.currentTarget);

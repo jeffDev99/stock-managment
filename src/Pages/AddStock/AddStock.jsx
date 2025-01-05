@@ -21,7 +21,7 @@ export default function AddStock() {
     (async () => {
       try {
         const res = await api.get(`/api/Auth/getusers`);
-        setUsers(res.data);
+        setUsers(res.data.$values);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({

@@ -39,15 +39,8 @@ export default function Login() {
               setLoading(true);
               const res = await api.post("/api/Auth/login", UserData);
               if (res.status === 200) {
-                Swal.fire({
-                  title: "ورود با موفقیت انجام شد",
-                  text: "لطفا جهت هدایت به داشبورد روی دکمه زیر کلیک کنید",
-                  confirmButtonText: "داشبورد",
-                  icon: "success",
-                }).then((res) => {
-                  navigate("/dashboard");
-                  Cookies.set("token", data, { expires: 7 });
-                });
+                Cookies.set("token", res?.data, { expires: 7 });
+                navigate("/dashboard");
               }
             } catch (error) {
               if (error.status === 401) {

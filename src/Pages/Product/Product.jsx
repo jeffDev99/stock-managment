@@ -1,19 +1,20 @@
 import { React, useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useFormik } from "formik";
 import api from "../../Services/config";
-
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
-
+import { FormControl } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import { MenuItem } from "@mui/material";
+import { FormHelperText } from "@mui/material";
 import { FaEye } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
-
-// hooks
-// import "./Product.css";
 
 export default function Product() {
   const [product, setProduct] = useState([]);
@@ -22,40 +23,49 @@ export default function Product() {
   const [loading, setLoading] = useState(true);
   const [openShowModal, setOpenShowModal] = useState(false);
   const navigate = useNavigate();
+  const params = useParams();
+  const form = useFormik({
+    initialValues: {
+      stockName: params.stockId,
+    },
+  });
 
   useEffect(() => {
     (async () => {
+      setLoading(true); // شروع بارگذاری
       try {
-        const res = await api.get("/api/Stock/getallgoods");
-        setProduct(res.data);
-        console.log(res.data)
+        if (params.stockId === "all") {
+          const res = await api.get("/api/Stock/getallgoods");
+          setProduct(res.data.$values);
+        } else {
+          const res = await api.get(`/api/Stock/getstockgoods/${params.stockId}`);
+          setProduct(res.data.$values);
+        }
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({
             icon: "error",
             title: "خطای اینترنت",
             text: "لطفا وضعیت اتصال خود را بررسی کنید",
-          }).then(() => {
-            setLoading(false);
           });
         }
+      } finally {
+        setLoading(false); // پایان بارگذاری
       }
     })();
-  }, [mainProduct]);
+  }, [params.stockId]);
 
   useEffect(() => {
     (async () => {
       try {
         const res = await api.get("/api/Stock/get-stocks");
-        setStock(res.data);
+        setStock(res.data.$values);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({
             icon: "error",
             title: "خطای اینترنت",
             text: "لطفا وضعیت اتصال خود را بررسی کنید",
-          }).then(() => {
-            setLoading(false);
           });
         }
       }
@@ -66,14 +76,12 @@ export default function Product() {
     setOpenShowModal(true);
     const findedproduct = product.find((item) => item.id === productID);
     setMainProduct(findedproduct);
-    if (product.length) {
-      setMainProduct(findedproduct);
-    }
   };
+
   const closeShowModal = () => setOpenShowModal(false);
 
   const editHandler = (productID) => {
-    navigate(`/dashboard/editproduct/${productID}` );
+    navigate(`/dashboard/editproduct/${productID}`);
   };
 
   const deleteHandler = (productID) => {
@@ -88,19 +96,23 @@ export default function Product() {
       if (res.isConfirmed) {
         (async () => {
           try {
-            const response = await api.delete(`/api/Stock/deletegood/${productID}`);
+            await api.delete(`/api/Stock/deletegood/${productID}`);
             Swal.fire({
               title: "محصول مورد نظر با موفقیت حذف شد",
               text: "شما محصول مورد نظر را با موفقیت حذف کردید.",
               icon: "success",
             });
-            setMainProduct(response.data);
-          } catch (e) {
-            console.log(e);
-          }
+            setProduct((prev) => prev.filter(item => item.id !== productID)); // حذف محصول از آرایه
+          } catch (e) {}
         })();
       }
     });
+  };
+
+  const handleSelectChange = (event) => {
+    const selectedValue = event.target.value;
+    form.setFieldValue("stockName", selectedValue);
+    navigate(`/dashboard/product/${selectedValue}`);
   };
 
   return (
@@ -116,6 +128,30 @@ export default function Product() {
             </Button>
           </h4>
         </div>
+        <div className="col-12 my-3">
+          <form onSubmit={form.handleSubmit} dir="rtl">
+            <FormControl className="input" fullWidth error={form.touched.stockName && Boolean(form.errors.stockName)}>
+              <InputLabel id="demo-simple-select-label">انبار</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={form.values.stockName}
+                name="stockName"
+                label="شروع شده؟"
+                onChange={handleSelectChange}
+                onBlur={form.handleBlur}
+              >
+                <MenuItem value="all">همه انبار ها</MenuItem>
+                {stock.map((item) => (
+                  <MenuItem value={item.id} key={item.id}>
+                    {item.stockName}
+                  </MenuItem>
+                ))}
+              </Select>
+              {form.touched.stockName && form.errors.stockName && <FormHelperText>{form.errors.stockName}</FormHelperText>}
+            </FormControl>
+          </form>
+        </div>
         <div className="table-responsive mt-3">
           <table className="table table-bordered">
             <thead>
@@ -128,7 +164,11 @@ export default function Product() {
               </tr>
             </thead>
             <tbody>
-              {product.length ? (
+              {loading ? (
+                <tr>
+                  <td colSpan={5}><span className="loader"></span></td>
+                </tr>
+              ) : product.length > 0 ? (
                 product.map((productItem, index) => (
                   <tr key={productItem.id}>
                     <td>{index + 1}</td>
@@ -152,9 +192,7 @@ export default function Product() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={8}>
-                    <span className="loader"></span>{" "}
-                  </td>
+                  <td colSpan={5}>محصولی یافت نشد</td>
                 </tr>
               )}
             </tbody>

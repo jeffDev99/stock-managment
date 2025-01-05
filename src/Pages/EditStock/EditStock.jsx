@@ -43,7 +43,7 @@ export default function AddStock() {
     (async () => {
       try {
         const res = await api.get(`/api/Auth/getusers`);
-        setUsers(res.data);
+        setUsers(res.data.$values);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({
@@ -67,7 +67,6 @@ export default function AddStock() {
             stockName: values.stockName,
             stockOwnerUserName: values.stockOwnerUserName,
           });
-          console.log(response)
           if (response.status === 200) {
             Swal.fire({
               icon: "success",

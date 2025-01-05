@@ -89,8 +89,7 @@ export default function Stock() {
     (async () => {
       try {
         const res = await api.get("/api/Auth/getusers");
-        console.log(res.data);
-        setUsers(res.data);
+        setUsers(res.data.$values);
       } catch (e) {
         console.log(e);
       }

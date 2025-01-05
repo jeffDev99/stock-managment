@@ -21,7 +21,7 @@ export default function AddProduct() {
     (async () => {
       try {
         const res = await api.get(`/api/Stock/get-stocks`);
-        setStocks(res.data);
+        setStocks(res.data.$values);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({
@@ -47,7 +47,6 @@ export default function AddProduct() {
     onSubmit: (values) => {
       (async () => {
         try {
-          console.log(values)
           const response = await api.post("/api/Stock/creategood", {
             goodName: values.goodName,
             goodNO: values.goodNO,
