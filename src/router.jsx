@@ -7,11 +7,11 @@ import Stock from "./Pages/Stock/Stock";
 import AddStock from "./Pages/AddStock/AddStock";
 import EditStock from "./Pages/EditStock/EditStock";
 import NotFound from "./Pages/NotFound/NotFound";
-import NewUser from "./pages/NewUser/NewUser";
-import Users from "./pages/Users/Users";
-import Product from "./pages/Product/Product";
-import EditProduct from "./pages/EditProduct/EditProduct";
-import AddProduct from "./pages/AddProduct/AddProduct";
+import NewUser from "./Pages/NewUser/NewUser";
+import Users from "./Pages/Users/Users";
+import Product from "./Pages/Product/Product";
+import EditProduct from "./Pages/EditProduct/EditProduct";
+import AddProduct from "./Pages/AddProduct/AddProduct";
 import Shift from "./Pages/Shift/Shift";
 import AddShift from "./Pages/AddShift/AddShift";
 
