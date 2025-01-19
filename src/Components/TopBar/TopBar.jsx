@@ -38,6 +38,8 @@ export default function TopBar() {
   };
   const handleCloseMyAcc = () => {
     setAnchorEl(null);
+  };
+  const handleLogOut = () => {
     Cookies.remove("token");
     navigate("/");
   };
@@ -53,7 +55,7 @@ export default function TopBar() {
         <div className="container-fluid">
           <div className="row align-items-center">
             <div className="col-5 col-md-2 d-flex align-items-center justify-content-center">
-              <Link to="/">
+              <Link to="/dashboard">
                 <img src="/images/logo.png" className="header-logo__img" alt="" />
               </Link>
             </div>
@@ -282,7 +284,7 @@ export default function TopBar() {
                     </ListItemIcon>
                     بازیابی رمز
                   </MenuItem>
-                  <MenuItem onClick={handleCloseMyAcc}>
+                  <MenuItem onClick={handleLogOut}>
                     <ListItemIcon>
                       <Logout fontSize="small" />
                     </ListItemIcon>

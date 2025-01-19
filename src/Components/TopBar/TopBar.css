@@ -11,6 +11,7 @@ header {
   top: 0;
   left: 0;
   z-index: 1000;
+  min-height: 70px;
 }
 body.dark header {
   background: #112143 !important;
@@ -22,12 +23,12 @@ body.dark header button.rounded-circle svg {
   color: #fff !important;
 }
 .header-logo__img {
-  width: 125px;
-  filter: invert(1);
+  width: 100%;
+  /* filter: invert(1); */
 }
 
 body.dark .header-logo__img {
-  filter: invert(0);
+  /* filter: invert(0); */
 }
 .header__menu-btn {
   color: #000;

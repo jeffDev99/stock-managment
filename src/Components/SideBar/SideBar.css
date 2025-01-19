@@ -155,7 +155,7 @@ body.dark .sidebar-submenu__item a{
 }
 .sidebar-logout {
   align-items: center;
-  background: #bcd2fd;
+  background: var(--e-global-color-primary);;
   border-radius: 10px;
   display: flex;
   height: 130px;
@@ -167,7 +167,7 @@ body.dark .sidebar-submenu__item a{
 }
 .sidebar-logout:after,
 .sidebar-logout:before {
-  background: #0858f7;
+  background: var(--e-global-color-secondary);
   border-radius: 100%;
   content: "";
   opacity: 0.5;
@@ -191,5 +191,5 @@ body.dark .sidebar-submenu__item a{
 }
 body.dark .sidebar-logout-wrapper .sidebar-logout {
   background: #0000;
-  background-image: linear-gradient(#183e8c, #163474);
+  background-color:var(--e-global-color-primary)
 }

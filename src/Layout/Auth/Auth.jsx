@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Logo from "../../../public/images/logo.png"
+import Logo from "../../../public/images/logoLogin.png"
 import "./Auth.css";
 
 export default function Auth() {

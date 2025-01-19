@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 // layout components
 import Dashboard from "./Layout/Dashboard/Dashboard";
 import Auth from "./Layout/Auth/Auth";
+
 // Dashboard Components
 import Stock from "./Pages/Stock/Stock";
 import AddStock from "./Pages/AddStock/AddStock";
@@ -14,12 +15,16 @@ import EditProduct from "./Pages/EditProduct/EditProduct";
 import AddProduct from "./Pages/AddProduct/AddProduct";
 import Shift from "./Pages/Shift/Shift";
 import AddShift from "./Pages/AddShift/AddShift";
+import Index from "./Pages/Index/Index";
 
 // Auth Components
 import Login from "./Pages/Login/Login";
 // import Register from "./Pages/Register/Register";
+
 // protected Components
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+
+// routes
 let routes = [
   // dashboard
   {
@@ -30,7 +35,7 @@ let routes = [
       </ProtectedRoute>
     ),
     children: [
-      { path: "", element: <Navigate to={"stock"} /> },
+      { path: "", element: <Navigate to={"dashboard"} /> },
       { path: "Users", element: <Users /> },
       { path: "newUser", element: <NewUser /> },
       { path: "stock", element: <Stock /> },
@@ -41,8 +46,9 @@ let routes = [
       { path: "editproduct/:id", element: <EditProduct /> },
       { path: "shift", element: <Shift /> },
       { path: "addshift", element: <AddShift /> },
-      // { path: "editshift/:id", element: <EditShift /> },
+      { path: "dashboard", element: <Index /> },
       { path: "*", element: <NotFound /> },
+      // { path: "editshift/:id", element: <EditShift /> },
     ],
   },
   // Auth
@@ -52,8 +58,8 @@ let routes = [
     children: [
       { path: "", element: <Navigate to={"/login"} /> },
       { path: "login", element: <Login /> },
-      // { path: "register", element: <Register /> },
       { path: "*", element: <NotFound /> },
+      // { path: "register", element: <Register /> },
     ],
   },
   //   not found

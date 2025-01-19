@@ -3,6 +3,8 @@ import Button from "@mui/material/Button";
 import { Link, NavLink } from "react-router-dom";
 // components
 import { MyContext } from "../../Layout/Dashboard/Dashboard";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 // icons
 import { FaAngleLeft } from "react-icons/fa6";
 import { IoMdLogOut } from "react-icons/io";
@@ -15,7 +17,8 @@ import { GrDropbox } from "react-icons/gr";
 import { RiInboxArchiveLine } from "react-icons/ri";
 import { MdMoreTime } from "react-icons/md";
 import { RiTimelineView } from "react-icons/ri";
-import { HiListBullet } from "react-icons/hi2"; 
+import { HiListBullet } from "react-icons/hi2";
+import { AiOutlineDashboard } from "react-icons/ai";
 
 // styles
 import "./SideBar.css";
@@ -24,13 +27,29 @@ export default function SideBar() {
   const context = useContext(MyContext);
   const [activeTab, setActiveTab] = useState(0);
   const [isToggleSubMenu, setIsToggleSubMenu] = useState(false);
+      const navigate = useNavigate();
+  
   const isOpenSubmenu = (index) => {
     setActiveTab(index);
     setIsToggleSubMenu(!isToggleSubMenu);
   };
+    const handleCloseMyAcc = () => {
+    Cookies.remove("token");
+    navigate("/");
+  };
   return (
     <aside className="sidebar">
       <ul className="sidebar-list list-unstyled">
+        <li className="sidebar-list__item">
+          <NavLink className="sidebar-list__link" to="dashboard" end>
+            <Button className={`sidebar-list__btn w-100`}>
+              <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
+                <AiOutlineDashboard />
+              </span>
+              داشبورد
+            </Button>
+          </NavLink>
+        </li>
         <li className="sidebar-list__item">
           <Button className={`sidebar-list__btn w-100 ${activeTab === 1 && isToggleSubMenu === true ? "active" : ""}`} onClick={() => isOpenSubmenu(1)}>
             <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
@@ -45,7 +64,7 @@ export default function SideBar() {
             <ul className="sidebar-submenu list-unstyled">
               <li className="sidebar-submenu__item">
                 <NavLink className="sidebar-list__link" to="stock" end>
-                <HiListBullet /> لیست انبار ها
+                  <HiListBullet /> لیست انبار ها
                 </NavLink>
               </li>
               <li className="sidebar-submenu__item">
@@ -59,7 +78,7 @@ export default function SideBar() {
         <li className="sidebar-list__item">
           <Button className={`sidebar-list__btn w-100 ${activeTab === 4 && isToggleSubMenu === true ? "active" : ""}`} onClick={() => isOpenSubmenu(4)}>
             <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
-            <GrDropbox />
+              <GrDropbox />
             </span>
             محصول
             <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
@@ -70,7 +89,7 @@ export default function SideBar() {
             <ul className="sidebar-submenu list-unstyled">
               <li className="sidebar-submenu__item">
                 <NavLink className="sidebar-list__link" to="product/all" end>
-                <HiListBullet /> لیست محصولات
+                  <HiListBullet /> لیست محصولات
                 </NavLink>
               </li>
               <li className="sidebar-submenu__item">
@@ -135,7 +154,7 @@ export default function SideBar() {
       <br />
       <div className="sidebar-logout-wrapper">
         <div className="sidebar-logout">
-          <Button variant="contained">
+          <Button variant="contained" onClick={handleCloseMyAcc}  color="secondary">
             <IoMdLogOut></IoMdLogOut>
             خروج
           </Button>
