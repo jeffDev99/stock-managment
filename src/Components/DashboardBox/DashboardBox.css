@@ -1,12 +1,8 @@
 .dashboardBox {
   border-radius: 10px !important;
   color: #fff !important;
-  display: flex !important;
-  flex-direction: column !important;
   height: 170px !important;
-  justify-content: space-around !important;
   overflow: hidden !important;
-  padding: 20px !important;
   position: relative !important;
   text-align: right !important ;
   text-transform: capitalize !important ;
@@ -14,7 +10,7 @@
 }
 @media screen and (min-width: 798px) {
   .dashboardBox {
-  width: 48% !important;
+  width: 49% !important;
   }
 }
 

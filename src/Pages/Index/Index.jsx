@@ -72,10 +72,10 @@ export default function Index() {
   return (
     <div className="row dashboardBoxWrapperRow">
       <div className="dashboardBoxWrapper d-flex">
-        <DashboardBox bgColor={["#1da256", "#48d483"]} icon={<TbBuildingEstate />} title="اموال" subTitle={"مدیریت اموال و دارایی ها"} />
-        <DashboardBox bgColor={["#c012e2", "#eb64fe"]} icon={<GiMoneyStack />} title="مالی" subTitle={"مدیریت مالی"} />
-        <DashboardBox bgColor={["#2c78e5", "#60aff5"]} icon={<HiOutlineUsers />} title="منابع انسانی" subTitle={"مدیریت منابع انسانی"} />
-        <DashboardBox bgColor={["#e1950e", "#f3cd29"]} icon={<RiHomeOfficeLine />} title="اتوماسیون اداری" subTitle={"اتوماسیون اداری موسسه"} />
+        <DashboardBox hrefLink="/dashboard/stock" bgColor={["#1da256", "#48d483"]} icon={<TbBuildingEstate />} title="اموال" subTitle={"مدیریت اموال و دارایی ها"} />
+        <DashboardBox hrefLink="/dashboard/Users" bgColor={["#2c78e5", "#60aff5"]} icon={<HiOutlineUsers />} title="منابع انسانی" subTitle={"مدیریت منابع انسانی"} />
+        <DashboardBox hrefLink="" bgColor={["#c012e2", "#eb64fe"]} icon={<GiMoneyStack />} title="مالی" subTitle={"مدیریت مالی"} />
+        <DashboardBox hrefLink="" bgColor={["#e1950e", "#f3cd29"]} icon={<RiHomeOfficeLine />} title="اتوماسیون اداری" subTitle={"اتوماسیون اداری موسسه"} />
       </div>
       <div className="col-12 col-md-6 mt-4">
         <div className="card shadow border-0 p-3">
