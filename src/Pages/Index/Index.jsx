@@ -8,7 +8,7 @@ import { GiMoneyStack } from "react-icons/gi";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { RiHomeOfficeLine } from "react-icons/ri";
 // styles
-import "./index.css";
+import "./Index.css";
 
 export default function Index() {
   const [Users, setUsers] = useState([]);
