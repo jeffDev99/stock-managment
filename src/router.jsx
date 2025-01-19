@@ -15,7 +15,7 @@ import EditProduct from "./Pages/EditProduct/EditProduct";
 import AddProduct from "./Pages/AddProduct/AddProduct";
 import Shift from "./Pages/Shift/Shift";
 import AddShift from "./Pages/AddShift/AddShift";
-import Index from "./Pages/index/Index";
+import Index from "./Pages/Index/Index.jsx";
 
 // Auth Components
 import Login from "./Pages/Login/Login";
