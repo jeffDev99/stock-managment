@@ -20,12 +20,13 @@ export default function Stock() {
   const [loading, setLoading] = useState(true);
   const [openShowModal, setOpenShowModal] = useState(false);
   const navigate = useNavigate();
-
   useEffect(() => {
+    setLoading(true);
     (async () => {
       try {
-        const res = await api.get("/api/Stock/get-stocks");
-        setStock(res.data.$values);
+        const res = await api.get("/api/Stock/get-all-stocks");
+        setStock(res.data);
+        setLoading(false);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({
@@ -39,7 +40,6 @@ export default function Stock() {
       }
     })();
   }, [mainstock]);
-
 
   const showHandler = (stockID) => {
     setOpenShowModal(true);
@@ -67,7 +67,7 @@ export default function Stock() {
       if (res.isConfirmed) {
         (async () => {
           try {
-            const response = await api.delete(`/api/Stock/deletestock/${stockID}`)
+            const response = await api.delete(`/api/Stock/deletestock/${stockID}`);
             Swal.fire({
               title: "انبار مورد نظر با موفقیت حذف شد",
               text: "شما انبار مورد نظر را با موفقیت حذف کردید.",
@@ -106,7 +106,13 @@ export default function Stock() {
               </tr>
             </thead>
             <tbody>
-              {stock.length ? (
+              {loading ? (
+                <tr>
+                  <td colSpan={8}>
+                    <span className="loader"></span>
+                  </td>
+                </tr>
+              ) : stock.length ? (
                 stock.map((stockItem, index) => (
                   <tr key={stockItem.id}>
                     <td>{index + 1}</td>
@@ -130,7 +136,7 @@ export default function Stock() {
               ) : (
                 <tr>
                   <td colSpan={8}>
-                    <span className="loader"></span>
+                    <span>هیچ انباری تعریف نشده</span>
                   </td>
                 </tr>
               )}
@@ -139,7 +145,6 @@ export default function Stock() {
         </div>
         {/* show modal */}
         <Modal open={openShowModal} onClose={closeShowModal}>
-          
           <>
             <div className="modal-wrapper">
               <RxCross2 onClick={closeShowModal} className="modall-cross" />
@@ -155,7 +160,9 @@ export default function Stock() {
                     <td>{mainstock?.stockOwnerUserName}</td>
                   </tr>
                   <tr>
-                    <td colSpan="2"><Link to={`/dashboard/product/${mainstock?.id}`}>مشاهده کالاهای {mainstock?.stockName}</Link></td>
+                    <td colSpan="2">
+                      <Link to={`/dashboard/product/${mainstock?.id}`}>مشاهده کالاهای {mainstock?.stockName}</Link>
+                    </td>
                   </tr>
                 </tbody>
               </table>

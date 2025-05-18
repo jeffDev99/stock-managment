@@ -37,9 +37,9 @@ export default function Login() {
           (async () => {
             try {
               setLoading(true);
-              const res = await api.post("/api/Auth/login", UserData);
+              const res = await api.post("/api/account/login", UserData);
               if (res.status === 200) {
-                Cookies.set("token", res?.data, { expires: 7 });
+                Cookies.set("token", res?.data?.token, { expires: 7 });
                 navigate("/dashboard");
               }
             } catch (error) {

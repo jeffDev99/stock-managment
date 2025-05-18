@@ -31,7 +31,7 @@ let routes = [
     path: "/dashboard",
     element: (
       <ProtectedRoute>
-      <Dashboard />
+        <Dashboard />
       </ProtectedRoute>
     ),
     children: [

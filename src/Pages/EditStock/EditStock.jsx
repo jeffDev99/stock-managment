@@ -42,7 +42,7 @@ export default function AddStock() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await api.get(`/api/Auth/getusers`);
+        const res = await api.get(`/api/Account/GetAllUsers`);
         setUsers(res.data.$values);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {

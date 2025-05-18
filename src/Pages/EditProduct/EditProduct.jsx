@@ -52,7 +52,7 @@ export default function AddStock() {
     (async () => {
       try {
         const res = await api.get(`/api/Stock/get-stocks`);
-        setStocks(res.data.$values);
+        setStocks(res.data);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({

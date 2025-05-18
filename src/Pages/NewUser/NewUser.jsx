@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
@@ -14,28 +14,48 @@ import "./NewUser.css";
 
 export default function NewUser() {
   const [loading, setLoading] = useState(false);
+  const [rols, setRols] = useState([]);
+
+  // get rols
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await api.get(`/api/Account/get-rolls`);
+        setRols(res.data);
+      } catch (e) {
+        if (e.code === "ERR_NETWORK") {
+          Swal.fire({
+            icon: "error",
+            title: "خطای اینترنت",
+            text: "لطفا وضعیت اتصال خود را بررسی کنید",
+          }).then(() => {
+            setLoading(false);
+          });
+        }
+      }
+    })();
+  }, []);
 
   const form = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      phone: "",
       userName: "",
       password: "",
       email: "",
+      role: rols.length > 0 ? rols[0].userName : "",
     },
     onSubmit: (values) => {
       (async () => {
         try {
           setLoading(true);
-          const { firstName, lastName, userName, password, email } = values;
-          const response = await api.post("api/Auth/register", {
-            firstName,
-            lastName,
+          const { phone, userName, password, email, role } = values;
+          const response = await api.post("/api/Account/register", {
+            phone,
             userName,
             password,
             email,
+            role,
           });
-          console.log(response);
           if (response.status === 200) {
             Swal.fire({
               icon: "success",
@@ -46,11 +66,19 @@ export default function NewUser() {
           }
         } catch (e) {
           if (e.status === 400) {
-            Swal.fire({
-              icon: "error",
-              title: "خطا در انجام عملیات",
-              text: "نام کاربری تکراری است",
-            });
+            if (e.response.data[0].code === "PasswordTooShort") {
+              Swal.fire({
+                icon: "error",
+                title: "خطا در انجام عملیات",
+                text: "طول رمز حداقل باید 6 کاراکتر باشد",
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "خطا در انجام عملیات",
+                text: "نام کاربری تکراری است",
+              });
+            }
             form.resetForm();
           }
         } finally {
@@ -59,21 +87,21 @@ export default function NewUser() {
       })();
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().max(100, " نام باید حداکثر 100 کاراکتر باشد").required("نام  الزامی است"),
-      lastName: Yup.string().required("نام خانوادگی الزامی است"),
+      phone: Yup.string().max(100, " نام باید حداکثر 100 کاراکتر باشد").required("شماره موبایل الزامی است"),
       userName: Yup.string().required("نام کاربری الزامی است"),
-      password: Yup.string().required("رمز الزامی است"),
-      email: Yup.string().email().required("ایمیل الزامی است"),
+      password: Yup.string("رمز حتما باید رشته باشد").min(6,"طول رمز حداقل باید 6 کاراکتر باشد").required("رمز الزامی است"),
+      email: Yup.string().email("لطفا ایمیل معتبری وارد کنید").required("ایمیل الزامی است"),
+      role: Yup.string().required("این فیلد الزامی است"),
     }),
   });
 
   const resetFormData = () => {
     form.setValues({
-      firstName: "",
-      lastName: "",
       userName: "",
       password: "",
       email: "",
+      phone: "",
+      role: rols[0].name,
     });
   };
 
@@ -93,70 +121,31 @@ export default function NewUser() {
 
         <form onSubmit={form.handleSubmit} dir="rtl">
           <div className="row align-items-center">
-            <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="نام"
-                name="firstName"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.firstName}
-                error={form.touched.firstName && Boolean(form.errors.firstName)}
-                helperText={form.touched.firstName && form.errors.firstName}
-                className="input"
-              />
+            <div className="col-12 col-md-4 mb-3">
+              <TextField type="text" label="نام کاربری" name="userName" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.userName} error={form.touched.userName && Boolean(form.errors.userName)} helperText={form.touched.userName && form.errors.userName} className="input" />
             </div>
-            <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="نام خانوادگی"
-                name="lastName"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.lastName}
-                error={form.touched.lastName && Boolean(form.errors.lastName)}
-                helperText={form.touched.lastName && form.errors.lastName}
-                className="input"
-              />
+            <div className="col-12 col-md-4 mb-3">
+              <TextField type="text" label="رمز" name="password" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.password} error={form.touched.password && Boolean(form.errors.password)} helperText={form.touched.password && form.errors.password} className="input" />
             </div>
-            <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="نام کاربری"
-                name="userName"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.userName}
-                error={form.touched.userName && Boolean(form.errors.userName)}
-                helperText={form.touched.userName && form.errors.userName}
-                className="input"
-              />
+            <div className="col-12 col-md-4 mb-3">
+              <TextField type="text" label="ایمیل" name="email" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.email} error={form.touched.email && Boolean(form.errors.email)} helperText={form.touched.email && form.errors.email} className="input" />
             </div>
-            <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="رمز"
-                name="password"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.password}
-                error={form.touched.password && Boolean(form.errors.password)}
-                helperText={form.touched.password && form.errors.password}
-                className="input"
-              />
+            <div className="col-12 col-md-4 mb-3">
+              <TextField type="text" label="شماره موبایل" name="phone" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.phone} error={form.touched.phone && Boolean(form.errors.phone)} helperText={form.touched.phone && form.errors.phone} className="input" />
             </div>
-            <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="ایمیل"
-                name="email"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.email}
-                error={form.touched.email && Boolean(form.errors.email)}
-                helperText={form.touched.email && form.errors.email}
-                className="input"
-              />
+
+            <div className="col-12 col-md-8 mb-3">
+              <FormControl className="input" fullWidth error={form.touched.role && Boolean(form.errors.role)}>
+                <InputLabel id="demo-simple-select-label">نقش</InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={form.values.role} name="role" label="شروع شده؟" onChange={form.handleChange} onBlur={form.handleBlur}>
+                  {rols.map((item) => (
+                    <MenuItem value={item.name} key={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {form.touched.role && form.errors.role && <FormHelperText>{form.errors.role}</FormHelperText>}
+              </FormControl>
             </div>
             <div className="col-12 col-md-12 text-center my-3">
               <Button className="ms-1" variant="contained" color="success" type="submit">

@@ -297,6 +297,71 @@ export default function SideBar() {
             </Button>
           </NavLink>
         </li>
+
+        <li className="sidebar-list__item">
+          <Button className={`sidebar-list__btn w-100 ${activeTab === 3 && isToggleSubMenu ? "active" : ""}`} onClick={() => isOpenSubmenu(3)}>
+            <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
+              <HiOutlineUsers />
+            </span>
+            منابع انسانی
+            <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
+              <FaAngleLeft />
+            </span>
+          </Button>
+          <div className={`sidebar-submenu-wrapper ${activeTab === 3 && isToggleSubMenu ? "sub-collapse" : "sub-collapsed"}`}>
+            <ul className="sidebar-submenu list-unstyled">
+              <li className="sidebar-submenu__item">
+                <Button className={`sidebar-list__btn w-100 ${submenuStates.subMenu1 ? "active" : ""}`} onClick={() => toggleSubmenu("subMenu1")}>
+                  <div className="d-flex gap-1 align-items-center">
+                    <HiOutlineUser />
+                    کاربران
+                  </div>
+                  <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
+                    <FaAngleLeft />
+                  </span>
+                </Button>
+                <div className={`sidebar-submenu-wrapper ${submenuStates.subMenu1 ? "sub-collapse" : "sub-collapsed"}`}>
+                  <ul className="sidebar-submenu list-unstyled">
+                    <li className="sidebar-submenu__item">
+                      <NavLink className="sidebar-list__link" to="users" end>
+                        <HiOutlineUsers /> لیست کاربران
+                      </NavLink>
+                    </li>
+                    <li className="sidebar-submenu__item">
+                      <NavLink to={"newUser"} end className="sidebar-list__link">
+                        <HiOutlineUserPlus /> ثبت نام کاربر جدید
+                      </NavLink>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li className="sidebar-submenu__item">
+                <Button className={`sidebar-list__btn w-100 ${submenuStates.subMenu2 ? "active" : ""}`} onClick={() => toggleSubmenu("subMenu2")}>
+                  <div className="d-flex gap-1 align-items-center">
+                    <IoTimeOutline /> شیفت
+                  </div>
+                  <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
+                    <FaAngleLeft />
+                  </span>
+                </Button>
+                <div className={`sidebar-submenu-wrapper ${submenuStates.subMenu2 ? "sub-collapse" : "sub-collapsed"}`}>
+                  <ul className="sidebar-submenu list-unstyled">
+                    <li className="sidebar-submenu__item">
+                      <NavLink className="sidebar-list__link" to="shift" end>
+                        <RiTimelineView /> لیست شیفت ها
+                      </NavLink>
+                    </li>
+                    <li className="sidebar-submenu__item">
+                      <NavLink className="sidebar-list__link" to="addshift" end>
+                        <MdMoreTime /> اضافه کردن شیفت جدید
+                      </NavLink>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
         <li className="sidebar-list__item">
           <Button className={`sidebar-list__btn w-100 ${activeTab === 1 && isToggleSubMenu ? "active" : ""}`} onClick={() => isOpenSubmenu(1)}>
             <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
@@ -358,71 +423,6 @@ export default function SideBar() {
                     <li className="sidebar-submenu__item">
                       <NavLink className="sidebar-list__link" to="addproduct" end>
                         اضافه کردن محصول جدید
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </li>
-
-        <li className="sidebar-list__item">
-          <Button className={`sidebar-list__btn w-100 ${activeTab === 3 && isToggleSubMenu ? "active" : ""}`} onClick={() => isOpenSubmenu(3)}>
-            <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
-              <HiOutlineUsers />
-            </span>
-            منابع انسانی
-            <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
-              <FaAngleLeft />
-            </span>
-          </Button>
-          <div className={`sidebar-submenu-wrapper ${activeTab === 3 && isToggleSubMenu ? "sub-collapse" : "sub-collapsed"}`}>
-            <ul className="sidebar-submenu list-unstyled">
-              <li className="sidebar-submenu__item">
-                <Button className={`sidebar-list__btn w-100 ${submenuStates.subMenu1 ? "active" : ""}`} onClick={() => toggleSubmenu("subMenu1")}>
-                  <div className="d-flex gap-1 align-items-center">
-                    <HiOutlineUser />
-                    کاربران
-                  </div>
-                  <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
-                    <FaAngleLeft />
-                  </span>
-                </Button>
-                <div className={`sidebar-submenu-wrapper ${submenuStates.subMenu1 ? "sub-collapse" : "sub-collapsed"}`}>
-                  <ul className="sidebar-submenu list-unstyled">
-                    <li className="sidebar-submenu__item">
-                      <NavLink className="sidebar-list__link" to="users" end>
-                        <HiOutlineUsers /> لیست کاربران
-                      </NavLink>
-                    </li>
-                    <li className="sidebar-submenu__item">
-                      <NavLink to={"newUser"} end className="sidebar-list__link">
-                        <HiOutlineUserPlus /> ثبت نام کاربر جدید
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li className="sidebar-submenu__item">
-                <Button className={`sidebar-list__btn w-100 ${submenuStates.subMenu2 ? "active" : ""}`} onClick={() => toggleSubmenu("subMenu2")}>
-                  <div className="d-flex gap-1 align-items-center">
-                    <IoTimeOutline /> شیفت
-                  </div>
-                  <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
-                    <FaAngleLeft />
-                  </span>
-                </Button>
-                <div className={`sidebar-submenu-wrapper ${submenuStates.subMenu2 ? "sub-collapse" : "sub-collapsed"}`}>
-                  <ul className="sidebar-submenu list-unstyled">
-                    <li className="sidebar-submenu__item">
-                      <NavLink className="sidebar-list__link" to="shift" end>
-                        <RiTimelineView /> لیست شیفت ها
-                      </NavLink>
-                    </li>
-                    <li className="sidebar-submenu__item">
-                      <NavLink className="sidebar-list__link" to="addshift" end>
-                        <MdMoreTime /> اضافه کردن شیفت جدید
                       </NavLink>
                     </li>
                   </ul>

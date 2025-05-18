@@ -1,6 +1,6 @@
 import axios from "axios";
  let api = axios.create({
-  baseURL: "https://fani.khz-fanoos.ir/",
+  baseURL: "https://back.sardar-hoor.ir",
 });
 export default api
 // const getStock = `${baseURL}/Stock`;

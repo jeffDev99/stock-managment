@@ -51,8 +51,8 @@ export default function Index() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await api.get("/api/Auth/getusers");
-        setUsers(res.data.$values);
+        const res = await api.get("/api/Account/GetAllUsers");
+        setUsers(res.data);
       } catch (e) {
         console.log(e);
       }

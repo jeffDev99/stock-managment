@@ -17,11 +17,13 @@ export default function AddStock() {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
   const navigate = useNavigate()
+  
+  // get user
   useEffect(() => {
     (async () => {
       try {
-        const res = await api.get(`/api/Auth/getusers`);
-        setUsers(res.data.$values);
+        const res = await api.get(`/api/Account/GetAllUsers`);
+        setUsers(res.data);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({
@@ -35,17 +37,19 @@ export default function AddStock() {
       }
     })();
   }, []);
+
+
   const form = useFormik({
     initialValues: {
       stockName: "",
-      stockOwnerUserName: users.length > 0 ? users[0].userName : "",
+      stockOwnerId: users.length > 0 ? users[0].id : "",
     },
     onSubmit: (values) => {
       (async () => {
         try {
-          const response = await api.post("/api/Stock/createstock", {
+          const response = await api.post("/api/Stock/create-stock", {
             stockName: values.stockName,
-            stockOwnerUserName: values.stockOwnerUserName,
+            stockOwnerId: values.stockOwnerId,
           });
           if (response.status === 200) {
             Swal.fire({
@@ -70,14 +74,14 @@ export default function AddStock() {
     },
     validationSchema: Yup.object().shape({
       stockName: Yup.string().min(5, "نام انبار باید حداقل 5 کاراکتر باشد").max(100, "نام انبار باید حداکثر 100 کاراکتر باشد").required("نام انبار الزامی است"),
-      stockOwnerUserName: Yup.string().required("این فیلد الزامی است"),
+      stockOwnerId: Yup.string().required("این فیلد الزامی است"),
     }),
   });
 
   const resetFormData = () => {
     form.setValues({
       stockName: "",
-      stockOwnerUserName: users[0].userName,
+      stockOwnerId: users[0].userName,
     });
   };
 
@@ -111,24 +115,24 @@ export default function AddStock() {
               />
             </div>
             <div className="col-12 col-md-6 mb-3">
-              <FormControl className="input" fullWidth error={form.touched.stockOwnerUserName && Boolean(form.errors.stockOwnerUserName)}>
+              <FormControl className="input" fullWidth error={form.touched.stockOwnerId && Boolean(form.errors.stockOwnerId)}>
                 <InputLabel id="demo-simple-select-label">نام کاربری مالک انبار </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={form.values.stockOwnerUserName}
-                  name="stockOwnerUserName"
+                  value={form.values.stockOwnerId}
+                  name="stockOwnerId"
                   label="شروع شده؟"
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
                 >
                   {users.map((item) => (
-                    <MenuItem value={item.userName} key={item.id}>
+                    <MenuItem value={item.id} key={item.id}>
                       {item.userName}
                     </MenuItem>
                   ))}
                 </Select>
-                {form.touched.stockOwnerUserName && form.errors.stockOwnerUserName && <FormHelperText>{form.errors.stockOwnerUserName}</FormHelperText>}
+                {form.touched.stockOwnerId && form.errors.stockOwnerId && <FormHelperText>{form.errors.stockOwnerId}</FormHelperText>}
               </FormControl>
             </div>
             <div className="col-12 col-md-12 text-center my-3">

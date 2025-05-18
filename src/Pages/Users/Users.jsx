@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import api from "../../Services/config";
 
-
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -14,9 +13,6 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Select from "@mui/material/Select";
 import { TextField } from "@mui/material";
-import Pagination from "@mui/material/Pagination";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 import { FaEye } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
@@ -28,68 +24,126 @@ import "./Users.css";
 
 export default function Stock() {
   const [Users, setUsers] = useState([]);
-  const [mainUsers, setMainUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [mainUser, setMainUser] = useState("");
   const [openShowModal, setOpenShowModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [rols, setRols] = useState([]);
 
+  const fetchUserById = async (id) => {
+    try {
+      const res = await api.get(`/api/Account/GetUserById/${id}`);
+      setMainUser(res.data);
+    } catch (e) {
+      if (e.code === "ERR_NETWORK") {
+        Swal.fire({
+          icon: "error",
+          title: "خطای اینترنت",
+          text: "لطفا وضعیت اتصال خود را بررسی کنید",
+        }).then(() => {
+          setLoading(false);
+        });
+      }
+    }
+  };
+  const fetchRolls = async () => {
+    try {
+      const res = await api.get(`/api/Account/get-rolls`);
+      setRols(res.data);
+    } catch (e) {
+      if (e.code === "ERR_NETWORK") {
+        Swal.fire({
+          icon: "error",
+          title: "خطای اینترنت",
+          text: "لطفا وضعیت اتصال خود را بررسی کنید",
+        }).then(() => {
+          setLoading(false);
+        });
+      }
+    }
+  };
   const form = useFormik({
     initialValues: {
-      UsersName: "",
-      year: "",
-      startingDate: "",
-      finishDate: "",
-      isClosed: true,
-      isStarted: 0,
+      phone: "",
+      userName: "",
+      newPassword: "",
+      email: "",
+      role: rols.length > 0 ? rols[0].userName : "",
     },
     onSubmit: (values) => {
       (async () => {
         try {
-          const valueWithId = { ...values, UsersID: mainUsers.UsersID };
-
-          const response = await fetch(updateUsers(mainUsers.UsersID), {
-            method: "PUT",
-            headers: {
-              accept: "*/*",
-              "Content-Type": "application/json",
+          setLoading(true);
+          const { phone, userName, newPassword, email, role } = values;
+          const response = await api.post(
+            `/api/Account/EditUser/${mainUser.id}`,
+            {
+              phone,
+              userName,
+              newPassword,
+              email,
+              role,
             },
-            body: JSON.stringify(valueWithId),
-          });
-          const data = await response.text();
-          if (response.ok) {
-            setOpenEditModal(false);
+            {
+              "X-HTTP-Method-Override": "PUT",
+            }
+          );
+          if (response.status === 200) {
             Swal.fire({
               icon: "success",
-              title: "سال مالی بروزرسانی شد",
-              text: "شما سال مالی خود را با موفقیت بروزرسانی کردید",
+              title: "عملیات با موفقیت انجام شد",
+              text: "کاربر با موفقیت ثبت شد",
             });
-          } else if (response.status === 400) {
-            Swal.fire({
-              icon: "error",
-              title: "خطا در ثبت سال مالی",
-              text: "لطفا ورودی ها خود را بررسی کنید",
-            });
-            resetFormData();
+            form.resetForm();
+            setOpenEditModal(false);
+            setMainUser("");
+            const res = await api.get("/api/Account/GetAllUsers");
+            setUsers(res.data);
           }
         } catch (e) {
-          console.log(e);
+          if (e.status === 400) {
+            if (e.response.data[0].code === "PasswordTooShort") {
+              Swal.fire({
+                icon: "error",
+                title: "خطا در انجام عملیات",
+                text: "طول رمز حداقل باید 6 کاراکتر باشد",
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "خطا در انجام عملیات",
+                text: "نام کاربری تکراری است",
+              });
+            }
+            form.resetForm();
+          }
+        } finally {
+          setLoading(false);
         }
       })();
     },
     validationSchema: Yup.object().shape({
-      UsersName: Yup.string().min(5, "سال مالی باید حداقل 5 کاراکتر باشد").max(100, "سال مالی باید حداکثر 100 کاراکتر باشد").required("سال مالی الزامی است"),
-      year: Yup.number().required("سال الزامی است"),
-      startingDate: Yup.string().required("تاریخ شروع سال مالی الزامی است"),
-      finishDate: Yup.string().required("تاریخ پایان سال مالی الزامی است"),
-      isStarted: Yup.number().required("این فیلد الزامی است"),
+      phone: Yup.string().max(100, " نام باید حداکثر 100 کاراکتر باشد"),
+      userName: Yup.string(),
+      newPassword: Yup.string("رمز حتما باید رشته باشد").min(6, "طول رمز حداقل باید 6 کاراکتر باشد"),
+      email: Yup.string().email("لطفا ایمیل معتبری وارد کنید"),
+      role: Yup.string(),
     }),
   });
+  const editHandler = async (id) => {
+    await fetchRolls();
+    await fetchUserById(id);
+    setOpenEditModal(true);
+    console.log(mainUser)
+  };
+  const closeEditModal = () => setOpenEditModal(false);
 
+  // get all user
   useEffect(() => {
     (async () => {
       try {
-        const res = await api.get("/api/Auth/getusers");
-        setUsers(res.data.$values);
+        const res = await api.get("/api/Account/GetAllUsers");
+        setUsers(res.data);
       } catch (e) {
         console.log(e);
       }
@@ -97,36 +151,28 @@ export default function Stock() {
   }, []);
 
   useEffect(() => {
-    if (mainUsers) {
+    if (mainUser) {
       form.setValues({
-        UsersName: mainUsers.UsersName || "",
-        year: mainUsers.year || "",
-        startingDate: mainUsers.startingDate || "",
-        finishDate: mainUsers.finishDate || "",
-        isClosed: true,
-        isStarted: mainUsers.isStarted ? 1 : 0,
+        userName: mainUser.userName,
+        newPassword: mainUser.newPassword,
+        email: mainUser.email,
+        phone: mainUser.phone,
+        role: mainUser.role,
       });
     }
-  }, [mainUsers]);
+  }, [mainUser]);
 
-  const showHandler = (UsersID) => {
+  const showHandler = (id) => {
     setOpenShowModal(true);
-    const findedUser = Users.find((item) => item.UsersID === UsersID);
-    setMainUsers(findedUser);
+    const findedUser = Users.find((item) => item.id === id);
+    setMainUser(findedUser);
     if (Users.length) {
-      setMainUsers(findedUser);
+      setMainUser(findedUser);
     }
   };
   const closeShowModal = () => setOpenShowModal(false);
 
-  const editHandler = (UsersID) => {
-    setOpenEditModal(true);
-    const findedUser = Users.find((item) => item.UsersID === UsersID);
-    setMainUsers(findedUser);
-  };
-  const closeEditModal = () => setOpenEditModal(false);
-
-  const deleteHandler = (UsersID) => {
+  const deleteHandler = (id) => {
     Swal.fire({
       icon: "warning",
       title: "کاربر حذف شود؟",
@@ -138,16 +184,16 @@ export default function Stock() {
       if (res.isConfirmed) {
         (async () => {
           try {
-            // ! doesnt have an api
-            const response = await api.delete("")
-            const data = await response.text();
-            console.log(response);
-            console.log(UsersID);
+            const response = await api.post(`/api/Account/DeleteUser/${id}`, undefined, {
+              "X-HTTP-Method-Override": "DELETE",
+            });
             Swal.fire({
               title: "عملیات با موفقیت انجام شد",
               text: "شما کاربر مورد نظر را با موفقیت حذف کردید.",
               icon: "success",
             });
+            const res = await api.get("/api/Account/GetAllUsers");
+            setUsers(res.data);
           } catch (e) {
             console.log(e);
           }
@@ -158,11 +204,11 @@ export default function Stock() {
 
   const resetFormData = () => {
     form.setValues({
-      UsersName: mainUsers.UsersName || "",
-      year: mainUsers.year || "",
-      startingDate: mainUsers.startingDate || "",
-      finishDate: mainUsers.finishDate || "",
-      isStarted: mainUsers.isStarted ? 1 : 0,
+      userName: "",
+      newPassword: "",
+      email: "",
+      phone: "",
+      role: rols[0].name,
     });
   };
 
@@ -184,31 +230,31 @@ export default function Stock() {
             <thead>
               <tr>
                 <th>ردیف</th>
-                <th>نام</th>
-                <th>نام خانوادگی</th>
                 <th>نام کاربری</th>
+                <th>شماره پرسنلی</th>
                 <th>ایمیل</th>
+                <th>شماره تلفن</th>
                 <th>عملیات</th>
               </tr>
             </thead>
             <tbody>
               {Users.length ? (
-                Users.map((mainUsers, index) => (
-                  <tr key={mainUsers.UsersID}>
+                Users.map((mainUser, index) => (
+                  <tr key={mainUser.id}>
                     <td>{index + 1}</td>
-                    <td>{mainUsers.firstName}</td>
-                    <td>{mainUsers.lastName}</td>
-                    <td>{mainUsers.userName}</td>
-                    <td>{mainUsers.email}</td>
+                    <td>{mainUser.userName}</td>
+                    <td>{mainUser.personnelCode}</td>
+                    <td>{mainUser.email}</td>
+                    <td>{mainUser.phone}</td>
                     <td>
                       <div className="table-actions d-flex align-items-center">
-                        <Button onClick={() => showHandler(mainUsers.UsersID)} color="secondary" variant="contained" startIcon={<FaEye />} className="table-actions__btn">
+                        <Button onClick={() => showHandler(mainUser.id)} color="secondary" variant="contained" startIcon={<FaEye />} className="table-actions__btn">
                           نمایش
                         </Button>
-                        <Button onClick={() => editHandler(mainUsers.UsersID)} color="success" variant="contained" startIcon={<FaPencil />} className="table-actions__btn">
+                        <Button onClick={() => editHandler(mainUser.id)} color="success" variant="contained" startIcon={<FaPencil />} className="table-actions__btn">
                           ویرایش
                         </Button>
-                        <Button onClick={() => deleteHandler(mainUsers.UsersID)} color="error" variant="contained" startIcon={<MdDelete />} className="table-actions__btn">
+                        <Button onClick={() => deleteHandler(mainUser.id)} color="error" variant="contained" startIcon={<MdDelete />} className="table-actions__btn">
                           حذف
                         </Button>
                       </div>
@@ -217,7 +263,9 @@ export default function Stock() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={8}><span className="loader"></span> </td>
+                  <td colSpan={8}>
+                    <span className="loader"></span>{" "}
+                  </td>
                 </tr>
               )}
             </tbody>
@@ -232,32 +280,32 @@ export default function Stock() {
               <table className="table table-bordered table-responsive">
                 <tbody>
                   <tr>
-                    <th>نام</th>
-                    <td>{mainUsers.firstName}</td>
+                    <th>نام کاربری</th>
+                    <td>{mainUser.userName}</td>
                   </tr>
                   <tr>
-                <th>نام خانوادگی</th>
-                    <td>{mainUsers.lastName}</td>
+                    <th>شماره پرسنلی</th>
+                    <td>{mainUser.personnelCode}</td>
                   </tr>
                   <tr>
-                <th>نام کاربری</th>
-                    <td>{mainUsers.userName}</td>
+                    <th>ایمیل</th>
+                    <td>{mainUser.email}</td>
                   </tr>
                   <tr>
-                  <th>ایمیل</th>
-                    <td>{mainUsers.email}</td>
+                    <th>شماره تلفن</th>
+                    <td>{mainUser.phone}</td>
                   </tr>
                   <tr>
-                  <th>ایمیل تایید شده؟</th>
-                    <td>{mainUsers.emailConfirmed ? "بله" : "خیر"}</td>
+                    <th>ایمیل تایید شده؟</th>
+                    <td>{mainUser.emailConfirmed ? "بله" : "خیر"}</td>
                   </tr>
                   <tr>
-                  <th>شماره موبایل تایید شده؟</th>
-                    <td>{mainUsers.phoneNumberConfirmed ? "بله" : "خیر"}</td>
+                    <th>شماره موبایل تایید شده؟</th>
+                    <td>{mainUser.phoneNumberConfirmed ? "بله" : "خیر"}</td>
                   </tr>
                   <tr>
-                  <th>تایید دو مرحله ای</th>
-                    <td>{mainUsers.phoneNumberConfirmed ? "بله" : "خیر"}</td>
+                    <th>تایید دو مرحله ای</th>
+                    <td>{mainUser.phoneNumberConfirmed ? "بله" : "خیر"}</td>
                   </tr>
                 </tbody>
               </table>
@@ -269,86 +317,43 @@ export default function Stock() {
           <>
             <div className="modal-wrapper">
               <RxCross2 onClick={closeEditModal} className="modall-cross" />
-              <h3 className="modal-title">ویرایش سال مالی</h3>
+              <h3 className="modal-title">ویرایش کاربر</h3>
               <form onSubmit={form.handleSubmit} dir="rtl">
                 <div className="row align-items-center">
-                  <div className="col-12 col-md-6 mb-3">
-                    <TextField
-                      type="text"
-                      label="نام سال مالی"
-                      name="UsersName"
-                      onChange={form.handleChange}
-                      onBlur={form.handleBlur}
-                      value={form.values.UsersName}
-                      error={form.touched.UsersName && Boolean(form.errors.UsersName)}
-                      helperText={form.touched.UsersName && form.errors.UsersName}
-                      className="input"
-                    />
+                  <div className="col-12 col-md-4 mb-3">
+                    <TextField type="text" label="نام کاربری" name="userName" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.userName} error={form.touched.userName && Boolean(form.errors.userName)} helperText={form.touched.userName && form.errors.userName} className="input" />
                   </div>
-                  <div className="col-12 col-md-6 mb-3">
-                    <TextField
-                      type="number"
-                      label="سال"
-                      name="year"
-                      onChange={form.handleChange}
-                      onBlur={form.handleBlur}
-                      value={form.values.year}
-                      error={form.touched.year && Boolean(form.errors.year)}
-                      helperText={form.touched.year && form.errors.year}
-                      className="input"
-                    />
+                  <div className="col-12 col-md-4 mb-3">
+                    <TextField type="text" label="رمز" name="newPassword" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.newPassword} error={form.touched.newPassword && Boolean(form.errors.newPassword)} helperText={form.touched.newPassword && form.errors.newPassword} className="input" />
                   </div>
-                  <div className="col-12 col-md-6 mb-3">
-                    <TextField
-                      type="text"
-                      label="تاریخ شروع"
-                      name="startingDate"
-                      onChange={form.handleChange}
-                      onBlur={form.handleBlur}
-                      value={form.values.startingDate}
-                      error={form.touched.startingDate && Boolean(form.errors.startingDate)}
-                      helperText={form.touched.startingDate && form.errors.startingDate}
-                      className="input"
-                    />
+                  <div className="col-12 col-md-4 mb-3">
+                    <TextField type="text" label="ایمیل" name="email" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.email} error={form.touched.email && Boolean(form.errors.email)} helperText={form.touched.email && form.errors.email} className="input" />
                   </div>
-                  <div className="col-12 col-md-6 mb-3">
-                    <TextField
-                      type="text"
-                      label="تاریخ پایان"
-                      name="finishDate"
-                      onChange={form.handleChange}
-                      onBlur={form.handleBlur}
-                      value={form.values.finishDate}
-                      error={form.touched.finishDate && Boolean(form.errors.finishDate)}
-                      helperText={form.touched.finishDate && form.errors.finishDate}
-                      className="input"
-                    />
+                  <div className="col-12 col-md-4 mb-3">
+                    <TextField type="text" label="شماره موبایل" name="phone" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.phone} error={form.touched.phone && Boolean(form.errors.phone)} helperText={form.touched.phone && form.errors.phone} className="input" />
                   </div>
-                  <div className="col-12 col-md-6 mb-3">
-                    <FormControl className="input" fullWidth error={form.touched.isStarted && Boolean(form.errors.isStarted)}>
-                      <InputLabel id="demo-simple-select-label">شروع شده؟</InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={form.values.isStarted}
-                        name="isStarted"
-                        label="شروع شده؟"
-                        onChange={form.handleChange}
-                        onBlur={form.handleBlur}
-                      >
-                        <MenuItem value={1}>بله</MenuItem>
-                        <MenuItem value={0}>خیر</MenuItem>
+
+                  <div className="col-12 col-md-8 mb-3">
+                    <FormControl className="input" fullWidth error={form.touched.role && Boolean(form.errors.role)}>
+                      <InputLabel id="demo-simple-select-label">نقش</InputLabel>
+                      <Select labelId="demo-simple-select-label" id="demo-simple-select" value={form.values.role} name="role" label="شروع شده؟" onChange={form.handleChange} onBlur={form.handleBlur}>
+                        {rols.map((item) => (
+                          <MenuItem value={item.name} key={item.id}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
                       </Select>
-                      {form.touched.isStarted && form.errors.isStarted && <FormHelperText>{form.errors.isStarted}</FormHelperText>}
+                      {form.touched.role && form.errors.role && <FormHelperText>{form.errors.role}</FormHelperText>}
                     </FormControl>
                   </div>
                   <div className="col-12 col-md-12 text-center my-3">
                     <Button className="ms-1" variant="contained" color="success" type="submit">
-                      بروزرسانی
+                      ثبت
                     </Button>
-                    <Button onClick={resetFormData} variant="contained" color="error" type="button">
+                    <Button onClick={form.resetForm} variant="contained" color="error" type="button">
                       بازنشانی
                     </Button>
+                    <div>{loading && <span className="loader"></span>}</div>
                   </div>
                 </div>
               </form>
