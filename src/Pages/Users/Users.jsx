@@ -234,6 +234,7 @@ export default function Stock() {
                 <th>شماره پرسنلی</th>
                 <th>ایمیل</th>
                 <th>شماره تلفن</th>
+                <th>نقش</th>
                 <th>عملیات</th>
               </tr>
             </thead>
@@ -246,6 +247,7 @@ export default function Stock() {
                     <td>{mainUser.personnelCode}</td>
                     <td>{mainUser.email}</td>
                     <td>{mainUser.phone}</td>
+                    <td>{mainUser.role}</td>
                     <td>
                       <div className="table-actions d-flex align-items-center">
                         <Button onClick={() => showHandler(mainUser.id)} color="secondary" variant="contained" startIcon={<FaEye />} className="table-actions__btn">
@@ -296,16 +298,8 @@ export default function Stock() {
                     <td>{mainUser.phone}</td>
                   </tr>
                   <tr>
-                    <th>ایمیل تایید شده؟</th>
-                    <td>{mainUser.emailConfirmed ? "بله" : "خیر"}</td>
-                  </tr>
-                  <tr>
-                    <th>شماره موبایل تایید شده؟</th>
-                    <td>{mainUser.phoneNumberConfirmed ? "بله" : "خیر"}</td>
-                  </tr>
-                  <tr>
-                    <th>تایید دو مرحله ای</th>
-                    <td>{mainUser.phoneNumberConfirmed ? "بله" : "خیر"}</td>
+                    <th>نقش</th>
+                    <td>{mainUser.role}</td>
                   </tr>
                 </tbody>
               </table>

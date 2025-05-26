@@ -43,7 +43,8 @@ export default function AddStock() {
     (async () => {
       try {
         const res = await api.get(`/api/Account/GetAllUsers`);
-        setUsers(res.data.$values);
+        setUsers(res.data);
+        console.log(users)
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({
@@ -63,7 +64,7 @@ export default function AddStock() {
     onSubmit: (values) => {
       (async () => {
         try {
-          const response = await api.put(`api/Stock/editstock/${id}`, {
+          const response = await api.post(`api/Stock/editstock/${id}`, {
             stockName: values.stockName,
             stockOwnerUserName: values.stockOwnerUserName,
           });

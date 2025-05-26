@@ -35,10 +35,11 @@ export default function Product() {
       setLoading(true); // شروع بارگذاری
       try {
         if (params.stockId === "all") {
-          const res = await api.get("/api/Stock/getallgoods");
-          setProduct(res.data.$values);
+          const res = await api.get("/api/Stock/get-all-goods");
+          console.log(res)
+          setProduct(res.data);
         } else {
-          const res = await api.get(`/api/Stock/getstockgoods/${params.stockId}`);
+          const res = await api.get(`/api/Stock/get-stock-goods/${params.stockId}`);
           setProduct(res.data.$values);
         }
       } catch (e) {
@@ -58,8 +59,8 @@ export default function Product() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await api.get("/api/Stock/get-stocks");
-        setStock(res.data.$values);
+        const res = await api.get("/api/Stock/get-all-stocks");
+        setStock(res.data);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({

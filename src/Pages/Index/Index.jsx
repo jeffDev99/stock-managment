@@ -86,22 +86,20 @@ export default function Index() {
             <table className="table table-bordered">
               <thead>
                 <tr>
-                  <th>ردیف</th>
-                  <th>نام</th>
-                  <th>نام خانوادگی</th>
-                  <th>نام کاربری</th>
-                  <th>ایمیل</th>
+                <th>ردیف</th>
+                <th>نام کاربری</th>
+                <th>شماره پرسنلی</th>
+                <th>نقش</th>
                 </tr>
               </thead>
               <tbody>
                 {currentUsers.length ? (
                   currentUsers.map((mainUsers, index) => (
                     <tr key={mainUsers.UsersID}>
-                      <td>{indexOfFirstUser + index + 1}</td>
-                      <td>{mainUsers.firstName}</td>
-                      <td>{mainUsers.lastName}</td>
-                      <td>{mainUsers.userName}</td>
-                      <td>{mainUsers.email}</td> {/* Assuming you have an email field */}
+                    <td>{index + 1}</td>
+                    <td>{mainUsers.userName}</td>
+                    <td>{mainUsers.personnelCode}</td>
+                    <td>{mainUsers.role}</td>
                     </tr>
                   ))
                 ) : (

@@ -14,10 +14,10 @@ header {
   min-height: 70px;
 }
 body.dark header {
-  background: #112143 !important;
+  background: #022129 !important;
 }
 body.dark header button.rounded-circle {
-  background: #112755 !important;
+  background: #033b48 !important;
 }
 body.dark header button.rounded-circle svg {
   color: #fff !important;

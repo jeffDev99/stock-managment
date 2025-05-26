@@ -20,7 +20,7 @@ export default function AddProduct() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await api.get(`/api/Stock/get-stocks`);
+        const res = await api.get(`/api/Stock/get-all-stocks`);
         setStocks(res.data);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
@@ -47,7 +47,7 @@ export default function AddProduct() {
     onSubmit: (values) => {
       (async () => {
         try {
-          const response = await api.post("/api/Stock/creategood", {
+          const response = await api.post("/api/Stock/create-good", {
             goodName: values.goodName,
             goodNO: values.goodNO,
             serialNO: values.serialNO,
@@ -62,7 +62,7 @@ export default function AddProduct() {
               text: "شما محصول خود را با موفقیت ثبت کردید",
             });
             form.resetForm();
-            navigate("/dashboard/product");
+            navigate("/dashboard/product/all");
           } else if (response.status === 400) {
             Swal.fire({
               icon: "error",

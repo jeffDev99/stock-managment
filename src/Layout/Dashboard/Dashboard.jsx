@@ -14,7 +14,7 @@ const MyContext = createContext();
 
 export default function Dashboard() {
   const [isToggleSideBar, setIsToggleSideBar] = useState(false);
-  const [themeMode, setThemeMode] = useState(true);
+  const [themeMode, setThemeMode] = useState(false);
 
   useEffect(() => {
     (()=>{

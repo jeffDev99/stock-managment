@@ -25,7 +25,7 @@ code {
 }
 body.dark .card,
 body.dark .card__title {
-  background-color: #112143 !important;
+  background-color: #022129 !important;
   color: rgba(255, 255, 255, 0.8) !important;
 }
 .card__title {

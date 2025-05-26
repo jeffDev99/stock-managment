@@ -18,7 +18,7 @@ export default function AddStock() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate()
   
-  // get user
+  // get all user
   useEffect(() => {
     (async () => {
       try {

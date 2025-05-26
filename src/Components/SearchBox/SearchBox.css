@@ -6,7 +6,7 @@ border-radius: 6px;
 padding: 3px 15px;
 }
 body.dark .SearchBox {
-    background: #12254e;
+    background: #033b48;
 }
 body.dark .SearchBox input, body.dark .SearchBox input::-webkit-input-placeholder, body.dark .SearchBox svg {
     color: #ffffffb3;

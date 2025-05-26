@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import SearchBox from "../SearchBox/SearchBox";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -11,21 +11,22 @@ import Logout from "@mui/icons-material/Logout";
 import Divider from "@mui/material/Divider";
 import { MdMenuOpen } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
-import { MdDarkMode } from "react-icons/md";
-import { IoCartOutline } from "react-icons/io5";
-import { MdOutlineMailOutline } from "react-icons/md";
 import { MdOutlineMenu } from "react-icons/md";
 import { FiBell } from "react-icons/fi";
 import { FaShieldAlt } from "react-icons/fa";
 import { MyContext } from "../../Layout/Dashboard/Dashboard";
 import Cookies from "js-cookie";
+import api from "../../Services/config";
+
 
 import "../../var.css";
 import "./TopBar.css";
+import Swal from "sweetalert2";
 
 export default function TopBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isOpenNotifications, setIsOpenNotifications] = useState(null);
+  const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
   const context = useContext(MyContext);
@@ -49,6 +50,57 @@ export default function TopBar() {
   const handleCloseNotifications = () => {
     setIsOpenNotifications(null);
   };
+
+   // get user
+   useEffect(() => {
+    (async () => {
+      try {
+        const res = await api.get(`/api/Account/GetCurrentUser`,{
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`
+          }
+        });
+        setUser(res.data);
+      } catch (e) {
+        if (e.code === "ERR_NETWORK") {
+          Swal.fire({
+            icon: "error",
+            title: "خطای اینترنت",
+            text: "لطفا وضعیت اتصال خود را بررسی کنید",
+          }).then(() => {
+            setLoading(false);
+          });
+        }else if(e.status === 401){
+          Swal.fire({
+            icon: "error",
+            title: "خطای احراز هویت",
+            text: "شما به این صفحه دسترسی ندارید",
+          }).then(() => {
+            navigate("/")
+          });
+        }else if(e.status === 403){
+          Swal.fire({
+            icon: "error",
+            title: "خطای احراز هویت",
+            text: "شما به این صفحه دسترسی ندارید",
+          }).then(() => {
+            navigate("/")
+          });
+        }else if(e.status === 404){
+         console.error("user not found")
+        }
+        else if(e.status === 500){
+          Swal.fire({
+            icon: "error",
+            title: "خطای سرور",
+            text: "لطفا با مدیر سیستم تماس بگیرید",
+          }).then(() => {
+            navigate("/")
+          }); 
+        }
+      }
+    })();
+  }, []);
   return (
     <>
       <header>
@@ -229,12 +281,12 @@ export default function TopBar() {
                 <Button className="myAcc d-flex align-items-center px-0 " onClick={handleOpenMyAcc}>
                   <div className="myAcc__userImg">
                     <span className="rounded-circle">
-                      <img src="images/blank-profile-picture-973460_960_720.webp" alt="" srcSet="" />
+                      <img src="/images/blank-profile-picture-973460_960_720.webp" alt="" srcSet="" />
                     </span>
                   </div>
                   <div className="d-none d-lg-block userInfo">
-                    <h4>سید محمد امین جعفرنژاد</h4>
-                    <p className="mb-0 ">@jeffDev99</p>
+                    <h4>{user?.email}</h4>
+                    <p className="mb-0 ">{user?.role}</p>
                   </div>
                 </Button>
                 <Menu

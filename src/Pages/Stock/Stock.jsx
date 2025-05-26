@@ -117,7 +117,7 @@ export default function Stock() {
                   <tr key={stockItem.id}>
                     <td>{index + 1}</td>
                     <td>{stockItem.stockName}</td>
-                    <td>{stockItem.stockOwnerUserName}</td>
+                    <td>{stockItem.stockUser}</td>
                     <td>
                       <div className="table-actions d-flex align-items-center">
                         <Button onClick={() => showHandler(stockItem.id)} color="secondary" variant="contained" startIcon={<FaEye />} className="table-actions__btn">
