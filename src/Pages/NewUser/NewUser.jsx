@@ -8,13 +8,14 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import api from "../../Services/config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineBookOpen } from "react-icons/hi2";
 import "./NewUser.css";
 
 export default function NewUser() {
   const [loading, setLoading] = useState(false);
   const [rols, setRols] = useState([]);
+  const navigate = useNavigate();
 
   // get rols
   useEffect(() => {
@@ -89,7 +90,7 @@ export default function NewUser() {
     validationSchema: Yup.object().shape({
       phone: Yup.string().max(100, " نام باید حداکثر 100 کاراکتر باشد").required("شماره موبایل الزامی است"),
       userName: Yup.string().required("نام کاربری الزامی است"),
-      password: Yup.string("رمز حتما باید رشته باشد").min(6,"طول رمز حداقل باید 6 کاراکتر باشد").required("رمز الزامی است"),
+      password: Yup.string("رمز حتما باید رشته باشد").min(6, "طول رمز حداقل باید 6 کاراکتر باشد").required("رمز الزامی است"),
       email: Yup.string().email("لطفا ایمیل معتبری وارد کنید").required("ایمیل الزامی است"),
       role: Yup.string().required("این فیلد الزامی است"),
     }),
@@ -151,8 +152,8 @@ export default function NewUser() {
               <Button className="ms-1" variant="contained" color="success" type="submit">
                 ثبت
               </Button>
-              <Button onClick={form.resetForm} variant="contained" color="error" type="button">
-                بازنشانی
+              <Button onClick={() => navigate("/dashboard/users")} variant="contained" color="error" type="button">
+                بازگشت
               </Button>
               <div>{loading && <span className="loader"></span>}</div>
             </div>

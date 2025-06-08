@@ -207,7 +207,7 @@ export default function AddStock() {
               <Button className="ms-1" variant="contained" color="success" type="submit">
                 ثبت
               </Button>
-              <Button onClick={() => navigate("/dashboard/product")} variant="text" color="error" type="button">
+              <Button onClick={() => navigate("/dashboard/product/all")} variant="text" color="error" type="button">
                 بازگشت
               </Button>
             </div>

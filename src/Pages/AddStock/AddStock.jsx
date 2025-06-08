@@ -90,7 +90,7 @@ export default function AddStock() {
       <div className="card shadow border-0 p-3">
         <div className="row card-filters">
           <h4 className="card__title mb-3">
-            ایحاد انبار
+            ایجاد انبار
             <Button color="primary" variant="contained" startIcon={<GrDropbox />} className="table-actions__btn me-3">
               <Link to={"/dashboard/stock"} style={{ color: "inherit", textDecoration: "none" }}>
                 لیست انبارها
@@ -116,7 +116,7 @@ export default function AddStock() {
             </div>
             <div className="col-12 col-md-6 mb-3">
               <FormControl className="input" fullWidth error={form.touched.stockOwnerId && Boolean(form.errors.stockOwnerId)}>
-                <InputLabel id="demo-simple-select-label">نام کاربری مالک انبار </InputLabel>
+                <InputLabel id="demo-simple-select-label">نام کاربری انباردار </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -139,8 +139,8 @@ export default function AddStock() {
               <Button className="ms-1" variant="contained" color="success" type="submit">
                 ثبت
               </Button>
-              <Button onClick={resetFormData} variant="contained" color="error" type="button">
-                بازنشانی
+              <Button onClick={() => navigate("/dashboard/stock")} variant="contained" color="error" type="button">
+                بازگشت
               </Button>
             </div>
           </div>
@@ -149,3 +149,6 @@ export default function AddStock() {
     </>
   );
 }
+
+
+ 

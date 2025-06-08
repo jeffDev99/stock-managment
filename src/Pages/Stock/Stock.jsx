@@ -67,7 +67,12 @@ export default function Stock() {
       if (res.isConfirmed) {
         (async () => {
           try {
-            const response = await api.delete(`/api/Stock/deletestock/${stockID}`);
+            const response = await api.post(`/api/Stock/deletestock/${stockID}`,null,{
+              headers: {
+                "Content-Type": "application/json",
+                "X-HTTP-Method-Override": "DELETE",
+              },
+            });
             Swal.fire({
               title: "انبار مورد نظر با موفقیت حذف شد",
               text: "شما انبار مورد نظر را با موفقیت حذف کردید.",
@@ -101,7 +106,7 @@ export default function Stock() {
               <tr>
                 <th>ردیف</th>
                 <th>نام</th>
-                <th>نام کاربری مالک انبار</th>
+                <th>نام کاربری انباردار</th>
                 <th>عملیات</th>
               </tr>
             </thead>
@@ -117,7 +122,7 @@ export default function Stock() {
                   <tr key={stockItem.id}>
                     <td>{index + 1}</td>
                     <td>{stockItem.stockName}</td>
-                    <td>{stockItem.stockUser}</td>
+                    <td>{stockItem.stockUserName}</td>
                     <td>
                       <div className="table-actions d-flex align-items-center">
                         <Button onClick={() => showHandler(stockItem.id)} color="secondary" variant="contained" startIcon={<FaEye />} className="table-actions__btn">
@@ -156,8 +161,8 @@ export default function Stock() {
                     <td>{mainstock?.stockName}</td>
                   </tr>
                   <tr>
-                    <td>نام کاربری مالک انبار </td>
-                    <td>{mainstock?.stockOwnerUserName}</td>
+                    <td>نام کاربری انباردار </td>
+                    <td>{mainstock?.stockUserName}</td>
                   </tr>
                   <tr>
                     <td colSpan="2">

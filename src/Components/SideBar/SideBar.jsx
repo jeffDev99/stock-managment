@@ -14,7 +14,7 @@ import { HiOutlineUsers } from "react-icons/hi2";
 import { IoTimeOutline } from "react-icons/io5";
 import { BsBoxes } from "react-icons/bs";
 import { GrDropbox, GrUserSettings } from "react-icons/gr";
-import { RiFileList3Line, RiHomeOfficeLine, RiInboxArchiveLine } from "react-icons/ri";
+import { RiFileList3Line, RiHomeOfficeLine, RiInboxArchiveLine, RiUserReceived2Line } from "react-icons/ri";
 import { MdMoreTime } from "react-icons/md";
 import { RiTimelineView } from "react-icons/ri";
 import { HiListBullet } from "react-icons/hi2";
@@ -29,6 +29,8 @@ import "./SideBar.css";
 import { TbBuildingEstate } from "react-icons/tb";
 import { GiMoneyStack } from "react-icons/gi";
 import { BiUser } from "react-icons/bi";
+
+const menuArr = ["داشبورد", "اتوماسیون اداری", "منابع انسانی", "فرهنگی", "اموال و دارایی ها", "مالی", "مدیر سیستم"];
 
 // ver 2
 export default function SideBar() {
@@ -76,6 +78,43 @@ export default function SideBar() {
         </li>
 
         <li className="sidebar-list__item">
+          <Button className={`sidebar-list__btn w-100 ${activeTab === 1 && isToggleSubMenu ? "active" : ""}`} onClick={() => isOpenSubmenu(1)}>
+            <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
+              <TbBuildingEstate />
+            </span>
+            اموال و دارایی ها
+            <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
+              <FaAngleLeft />
+            </span>
+          </Button>
+          <div className={`sidebar-submenu-wrapper ${activeTab === 1 && isToggleSubMenu ? "sub-collapse" : "sub-collapsed"}`}>
+            <ul className="sidebar-submenu list-unstyled">
+              {/* <li className="sidebar-submenu__item">
+                <NavLink className="sidebar-list__link" to="product/all" end>
+                  <HiListBullet /> لیست محصولات
+                </NavLink>
+              </li> */}
+              <li className="sidebar-submenu__item">
+                <Button onClick={() => navigate("stock")} className={`sidebar-list__btn w-100 flex gap-2`}>
+                  <BsBoxes /> انبار
+                </Button>
+              </li>
+              <li className="sidebar-submenu__item">
+                <Button onClick={() => navigate("product/all")} className={`sidebar-list__btn w-100  flex gap-2 ${submenuStates.subMenu1 ? "active" : ""}`}>
+                      <GrDropbox />
+                      لیست محصولات
+                </Button>
+              </li>
+              <li className="sidebar-submenu__item">
+                <Button onClick={() => navigate("transfergood")} className={`sidebar-list__btn w-100  flex gap-2`}>
+                      <RiUserReceived2Line />
+                      تخصیص محصول به کاربر
+                </Button>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li className="sidebar-list__item">
           <Button className={`sidebar-list__btn w-100 ${activeTab === 4 && isToggleSubMenu ? "active" : ""}`} onClick={() => isOpenSubmenu(4)}>
             <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
               <RiHomeOfficeLine />
@@ -90,7 +129,7 @@ export default function SideBar() {
               <li className="sidebar-submenu__item">
                 <Button className={`sidebar-list__btn w-100 ${submenuStates.subMenu2 ? "active" : ""}`} onClick={() => toggleSubmenu("subMenu2")}>
                   <div className="d-flex gap-1 align-items-center">
-                    <RiFileList3Line  /> گزارشات
+                    <RiFileList3Line /> گزارشات
                   </div>
                   <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
                     <FaAngleLeft />
@@ -105,12 +144,12 @@ export default function SideBar() {
                     </li>
                     <li className="sidebar-submenu__item">
                       <NavLink className="sidebar-list__link" to="stock" end>
-                      گزارش محرمانه
+                        گزارش محرمانه
                       </NavLink>
                     </li>
                     <li className="sidebar-submenu__item">
                       <NavLink className="sidebar-list__link" to="stock" end>
-                      گزارش ماهیانه
+                        گزارش ماهیانه
                       </NavLink>
                     </li>
                   </ul>
@@ -182,7 +221,7 @@ export default function SideBar() {
             </ul>
           </div>
         </li>
-        
+
         <li className="sidebar-list__item">
           <Button className={`sidebar-list__btn w-100 ${activeTab === 6 && isToggleSubMenu ? "active" : ""}`} onClick={() => isOpenSubmenu(6)}>
             <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
@@ -222,76 +261,6 @@ export default function SideBar() {
             </ul>
           </div>
         </li>
-        <li className="sidebar-list__item">
-          <Button className={`sidebar-list__btn w-100 ${activeTab === 1 && isToggleSubMenu ? "active" : ""}`} onClick={() => isOpenSubmenu(1)}>
-            <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
-              <TbBuildingEstate />
-            </span>
-            اموال و دارایی ها
-            <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
-              <FaAngleLeft />
-            </span>
-          </Button>
-          <div className={`sidebar-submenu-wrapper ${activeTab === 1 && isToggleSubMenu ? "sub-collapse" : "sub-collapsed"}`}>
-            <ul className="sidebar-submenu list-unstyled">
-              {/* <li className="sidebar-submenu__item">
-                <NavLink className="sidebar-list__link" to="product/all" end>
-                  <HiListBullet /> لیست محصولات
-                </NavLink>
-              </li> */}
-
-              <li className="sidebar-submenu__item">
-                <Button className={`sidebar-list__btn w-100 ${submenuStates.subMenu2 ? "active" : ""}`} onClick={() => toggleSubmenu("subMenu2")}>
-                  <div className="d-flex gap-1 align-items-center">
-                    <BsBoxes /> انبارها
-                  </div>
-                  <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
-                    <FaAngleLeft />
-                  </span>
-                </Button>
-                <div className={`sidebar-submenu-wrapper ${submenuStates.subMenu2 ? "sub-collapse" : "sub-collapsed"}`}>
-                  <ul className="sidebar-submenu list-unstyled">
-                    <li className="sidebar-submenu__item">
-                      <NavLink className="sidebar-list__link" to="stock" end>
-                        <HiListBullet /> لیست انبار ها
-                      </NavLink>
-                    </li>
-                    <li className="sidebar-submenu__item">
-                      <NavLink className="sidebar-list__link" to="addstock" end>
-                        <RiInboxArchiveLine /> اضافه کردن انبار جدید
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li className="sidebar-submenu__item">
-                <Button className={`sidebar-list__btn w-100 ${submenuStates.subMenu1 ? "active" : ""}`} onClick={() => toggleSubmenu("subMenu1")}>
-                  <div className="d-flex gap-1 align-items-center">
-                    <GrDropbox /> محصولات
-                  </div>
-                  <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
-                    <FaAngleLeft />
-                  </span>
-                </Button>
-                <div className={`sidebar-submenu-wrapper ${submenuStates.subMenu1 ? "sub-collapse" : "sub-collapsed"}`}>
-                  <ul className="sidebar-submenu list-unstyled">
-                    <li className="sidebar-submenu__item">
-                      <NavLink className="sidebar-list__link" to="product/all" end>
-                        لیست محصولات
-                      </NavLink>
-                    </li>
-                    <li className="sidebar-submenu__item">
-                      <NavLink className="sidebar-list__link" to="addproduct" end>
-                        اضافه کردن محصول جدید
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </li>
-
         <li className="sidebar-list__item">
           <Button className={`sidebar-list__btn w-100 ${activeTab === 2 && isToggleSubMenu ? "active" : ""}`} onClick={() => isOpenSubmenu(2)}>
             <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
@@ -356,49 +325,31 @@ export default function SideBar() {
           </div>
         </li>
 
-        
         <li className="sidebar-list__item">
           <Button className={`sidebar-list__btn w-100 ${activeTab === 5 && isToggleSubMenu ? "active" : ""}`} onClick={() => isOpenSubmenu(5)}>
             <span className="sidebar-list__icon d-flex align-items-center justify-content-center">
-              <RiAdminLine  />
+              <RiAdminLine />
             </span>
-            مدیر سیستم
+            تنظیمات سیستم
             <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
               <FaAngleLeft />
             </span>
           </Button>
           <div className={`sidebar-submenu-wrapper ${activeTab === 5 && isToggleSubMenu ? "sub-collapse" : "sub-collapsed"}`}>
             <ul className="sidebar-submenu list-unstyled">
-            <li className="sidebar-submenu__item">
+              <li className="sidebar-submenu__item">
                 <Button className={`sidebar-list__btn w-100 ${submenuStates.subMenu1 ? "active" : ""}`} onClick={() => toggleSubmenu("subMenu1")}>
-                  <div className="d-flex gap-1 align-items-center">
+                  <NavLink className="sidebar-list__link" to="users" end>
                     <HiOutlineUser />
                     کاربران
-                  </div>
-                  <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
-                    <FaAngleLeft />
-                  </span>
+                  </NavLink>
                 </Button>
-                <div className={`sidebar-submenu-wrapper ${submenuStates.subMenu1 ? "sub-collapse" : "sub-collapsed"}`}>
-                  <ul className="sidebar-submenu list-unstyled">
-                    <li className="sidebar-submenu__item">
-                      <NavLink className="sidebar-list__link" to="users" end>
-                        <HiOutlineUsers /> لیست کاربران
-                      </NavLink>
-                    </li>
-                    <li className="sidebar-submenu__item">
-                      <NavLink to={"newUser"} end className="sidebar-list__link">
-                        <HiOutlineUserPlus /> ثبت نام کاربر جدید
-                      </NavLink>
-                    </li>
-                  </ul>
-                </div>
               </li>
               <li className="sidebar-submenu__item">
                 <Button className={`sidebar-list__btn w-100 ${submenuStates.subMenu2 ? "active" : ""}`} onClick={() => toggleSubmenu("subMenu2")}>
                   <div className="d-flex gap-1 align-items-center">
-                    <GrProjects  />
-                     پروژه ها
+                    <GrProjects />
+                    پروژه ها
                   </div>
                   <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
                     <FaAngleLeft />
@@ -408,18 +359,18 @@ export default function SideBar() {
                   <ul className="sidebar-submenu list-unstyled">
                     <li className="sidebar-submenu__item">
                       <NavLink className="sidebar-list__link" to="" end>
-                      تعریف پروژه ها
+                        تعریف پروژه ها
                       </NavLink>
                     </li>
                   </ul>
                 </div>
               </li>
-              
+
               <li className="sidebar-submenu__item">
                 <Button className={`sidebar-list__btn w-100 ${submenuStates.subMenu3 ? "active" : ""}`} onClick={() => toggleSubmenu("subMenu3")}>
                   <div className="d-flex gap-1 align-items-center">
-                    <GrUserSettings   />
-                     نقش ها
+                    <GrUserSettings />
+                    نقش ها
                   </div>
                   <span className="sidebar-list__arrow d-flex align-items-center justify-content-center">
                     <FaAngleLeft />
@@ -429,12 +380,12 @@ export default function SideBar() {
                   <ul className="sidebar-submenu list-unstyled">
                     <li className="sidebar-submenu__item">
                       <NavLink className="sidebar-list__link" to="" end>
-                      تعریف نقش
+                        تعریف نقش
                       </NavLink>
                     </li>
                     <li className="sidebar-submenu__item">
                       <NavLink className="sidebar-list__link" to="" end>
-                      نقش ها
+                        نقش ها
                       </NavLink>
                     </li>
                   </ul>

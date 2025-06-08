@@ -18,17 +18,17 @@ export default function AddStock() {
   const [users, setUsers] = useState([]);
   const [initialValues, setInitialValues] = useState({
     stockName: "",
-    stockOwnerUserName: "",
+    stockUserName: "",
   });
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchStockData = async () => {
       try {
         const res = await api.get(`/api/Stock/getstockbyid/${id}`);
         setInitialValues({
           stockName: res.data.stockName || "",
-          stockOwnerUserName: res.data.stockOwnerUserName || "",
+          stockUserName: res.data.stockUserName || "",
         });
       } catch (error) {
         console.error("Error fetching stock data:", error);
@@ -44,7 +44,6 @@ export default function AddStock() {
       try {
         const res = await api.get(`/api/Account/GetAllUsers`);
         setUsers(res.data);
-        console.log(users)
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
           Swal.fire({
@@ -60,20 +59,21 @@ export default function AddStock() {
   }, []);
   const form = useFormik({
     initialValues,
-    enableReinitialize:true,
+    enableReinitialize: true,
     onSubmit: (values) => {
       (async () => {
         try {
+          const selectedUser = users.find((user) => user.userName === values.stockUserName);
           const response = await api.post(`api/Stock/editstock/${id}`, {
             stockName: values.stockName,
-            stockOwnerUserName: values.stockOwnerUserName,
+            stockOwnerId: selectedUser.id,
           });
           if (response.status === 200) {
             Swal.fire({
               icon: "success",
               title: "انبار با موفقیت ویرایش  شد",
               text: "اطلاعات انبار شما با موفقیت ویرایش شد",
-            }).then(res=>navigate("/dashboard/stock"));
+            }).then((res) => navigate("/dashboard/stock"));
           } else if (response.status === 400) {
             Swal.fire({
               icon: "error",
@@ -88,7 +88,7 @@ export default function AddStock() {
     },
     validationSchema: Yup.object().shape({
       stockName: Yup.string().min(5, "نام انبار باید حداقل 5 کاراکتر باشد").max(100, "نام انبار باید حداکثر 100 کاراکتر باشد").required("نام انبار الزامی است"),
-      stockOwnerUserName: Yup.string().required("این فیلد الزامی است"),
+      stockUserName: Yup.string().required("این فیلد الزامی است"),
     }),
   });
 
@@ -109,30 +109,12 @@ export default function AddStock() {
         <form onSubmit={form.handleSubmit} dir="rtl">
           <div className="row align-items-center">
             <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="نام انبار"
-                name="stockName"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.stockName}
-                error={form.touched.stockName && Boolean(form.errors.stockName)}
-                helperText={form.touched.stockName && form.errors.stockName}
-                className="input"
-              />
+              <TextField type="text" label="نام انبار" name="stockName" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.stockName} error={form.touched.stockName && Boolean(form.errors.stockName)} helperText={form.touched.stockName && form.errors.stockName} className="input" />
             </div>
             <div className="col-12 col-md-6 mb-3">
-              <FormControl className="input" fullWidth error={form.touched.stockOwnerUserName && Boolean(form.errors.stockOwnerUserName)}>
+              <FormControl className="input" fullWidth error={form.touched.stockUserName && Boolean(form.errors.stockUserName)}>
                 <InputLabel id="demo-simple-select-label">نام کاربری مالک انبار </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={form.values.stockOwnerUserName}
-                  name="stockOwnerUserName"
-                  label="شروع شده؟"
-                  onChange={form.handleChange}
-                  onBlur={form.handleBlur}
-                >
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={form.values.stockUserName} name="stockUserName" label="شروع شده؟" onChange={form.handleChange} onBlur={form.handleBlur}>
                   {users.length === 0 ? (
                     <MenuItem disabled>کاربری موجود نیست</MenuItem>
                   ) : (
@@ -143,14 +125,14 @@ export default function AddStock() {
                     ))
                   )}
                 </Select>
-                {form.touched.stockOwnerUserName && form.errors.stockOwnerUserName && <FormHelperText>{form.errors.stockOwnerUserName}</FormHelperText>}
+                {form.touched.stockUserName && form.errors.stockUserName && <FormHelperText>{form.errors.stockUserName}</FormHelperText>}
               </FormControl>
             </div>
             <div className="col-12 col-md-12 text-center my-3">
               <Button className="ms-1" variant="contained" color="success" type="submit">
                 ثبت
               </Button>
-              <Button onClick={()=>navigate("/dashboard/stock")} variant="text" color="error" type="button">
+              <Button onClick={() => navigate("/dashboard/stock")} variant="contained" color="error" type="button">
                 بازگشت
               </Button>
             </div>

@@ -16,7 +16,7 @@ import AddProduct from "./Pages/AddProduct/AddProduct";
 import Shift from "./Pages/Shift/Shift";
 import AddShift from "./Pages/AddShift/AddShift";
 import Index from "./Pages/Index/Index.jsx";
-
+import TransferGood from "./Pages/TransferGood/TransferGood.jsx";
 // Auth Components
 import Login from "./Pages/Login/Login";
 // import Register from "./Pages/Register/Register";
@@ -47,6 +47,7 @@ let routes = [
       { path: "shift", element: <Shift /> },
       { path: "addshift", element: <AddShift /> },
       { path: "dashboard", element: <Index /> },
+      { path: "transfergood", element: <TransferGood /> },
       { path: "*", element: <NotFound /> },
       // { path: "editshift/:id", element: <EditShift /> },
     ],

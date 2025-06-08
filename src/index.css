@@ -7,7 +7,7 @@
 }
 
 body.dark .input div {
-  background: #12254e;
+  background: #174a58;
   color: #fff !important;
 }
 
@@ -27,11 +27,16 @@ body.dark .card,
 body.dark .card__title {
   background-color: #022129 !important;
   color: rgba(255, 255, 255, 0.8) !important;
+ 
 }
 .card__title {
   color: #403e57;
   font-size: 18px;
   font-weight: 700;
+   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 .card-filters__title {
   color: #403e57;

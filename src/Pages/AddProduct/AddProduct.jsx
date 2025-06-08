@@ -11,6 +11,7 @@ import Select from "@mui/material/Select";
 // import { createFiscalYear } from "../../Services/FiscalYear/FiscalYear";
 import { Link, useNavigate } from "react-router-dom";
 import { GrDropbox } from "react-icons/gr";
+import Cookies from "js-cookie";
 // import "./AddProduct.css";
 
 export default function AddProduct() {
@@ -38,7 +39,6 @@ export default function AddProduct() {
   const form = useFormik({
     initialValues: {
       goodName: "",
-      goodNO: "",
       serialNO: "",
       currentLocation: "",
       description: "",
@@ -49,12 +49,15 @@ export default function AddProduct() {
         try {
           const response = await api.post("/api/Stock/create-good", {
             goodName: values.goodName,
-            goodNO: values.goodNO,
             serialNO: values.serialNO,
             currentLocation: values.currentLocation,
             description: values.description,
+            isInStock: true,
             stockId: values.stockId,
+          }, undefined , {
+            Authorization: `Bearer ${Cookies.get("token")}`
           });
+          console.log(Cookies.get("token"))
           if (response.status === 200) {
             Swal.fire({
               icon: "success",
@@ -78,8 +81,7 @@ export default function AddProduct() {
     },
     validationSchema: Yup.object().shape({
       goodName: Yup.string().min(5, "نام محصول باید حداقل 5 کاراکتر باشد").max(100, "نام محصول باید حداکثر 100 کاراکتر باشد").required("نام محصول الزامی است"),
-      goodNO: Yup.string("این فیلد باید عدد باشد").required("شماره محصول الزامی است"),
-      serialNO: Yup.string("این فیلد باید عدد باشد").required("سریال محصول الزامی است"),
+      serialNO: Yup.string("این فیلد باید عدد باشد").required("کد اموال الزامی است"),
       currentLocation: Yup.string().required("این فیلد الزامی است"),
       description: Yup.string().required("این فیلد الزامی است"),
       stockId: Yup.number().required("این فیلد الزامی است"),
@@ -93,7 +95,7 @@ export default function AddProduct() {
           <h4 className="card__title mb-3">
             ایجاد محصول
             <Button color="primary" variant="contained" startIcon={<GrDropbox />} className="table-actions__btn me-3">
-              <Link to={"/dashboard/product"} style={{ color: "inherit", textDecoration: "none" }}>
+              <Link to={"/dashboard/product/all"} style={{ color: "inherit", textDecoration: "none" }}>
                 لیست محصولات
               </Link>
             </Button>
@@ -103,69 +105,19 @@ export default function AddProduct() {
         <form onSubmit={form.handleSubmit} dir="rtl">
           <div className="row align-items-center">
             <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="نام محصول"
-                name="goodName"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.goodName}
-                error={form.touched.goodName && Boolean(form.errors.goodName)}
-                helperText={form.touched.goodName && form.errors.goodName}
-                className="input"
-              />
+              <TextField type="text" label="نام محصول" name="goodName" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.goodName} error={form.touched.goodName && Boolean(form.errors.goodName)} helperText={form.touched.goodName && form.errors.goodName} className="input" />
+            </div>
+
+            <div className="col-12 col-md-6 mb-3">
+              <TextField type="text" label="کد اموال" name="serialNO" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.serialNO} error={form.touched.serialNO && Boolean(form.errors.serialNO)} helperText={form.touched.serialNO && form.errors.serialNO} className="input" />
             </div>
             <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="شماره محصول"
-                name="goodNO"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.goodNO}
-                error={form.touched.goodNO && Boolean(form.errors.goodNO)}
-                helperText={form.touched.goodNO && form.errors.goodNO}
-                className="input"
-              />
-            </div>
-            <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="سریال محصول"
-                name="serialNO"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.serialNO}
-                error={form.touched.serialNO && Boolean(form.errors.serialNO)}
-                helperText={form.touched.serialNO && form.errors.serialNO}
-                className="input"
-              />
-            </div>
-            <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="محل فعلی محصول"
-                name="currentLocation"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.currentLocation}
-                error={form.touched.currentLocation && Boolean(form.errors.currentLocation)}
-                helperText={form.touched.currentLocation && form.errors.currentLocation}
-                className="input"
-              />
+              <TextField type="text" label="محل فعلی محصول" name="currentLocation" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.currentLocation} error={form.touched.currentLocation && Boolean(form.errors.currentLocation)} helperText={form.touched.currentLocation && form.errors.currentLocation} className="input" />
             </div>
             <div className="col-12 col-md-6 mb-3">
               <FormControl className="input" fullWidth error={form.touched.stockId && Boolean(form.errors.stockId)}>
                 <InputLabel id="demo-simple-select-label">انبار</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={form.values.stockId}
-                  name="stockId"
-                  label="شروع شده؟"
-                  onChange={form.handleChange}
-                  onBlur={form.handleBlur}
-                >
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={form.values.stockId} name="stockId" label="شروع شده؟" onChange={form.handleChange} onBlur={form.handleBlur}>
                   {stocks.map((item) => (
                     <MenuItem value={item.id} key={item.id}>
                       {item.stockName}
@@ -176,17 +128,7 @@ export default function AddProduct() {
               </FormControl>
             </div>
             <div className="col-12 col-md-6  mb-3">
-              <TextField
-                type="text"
-                label="توضیحات"
-                name="description"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.description}
-                error={form.touched.description && Boolean(form.errors.description)}
-                helperText={form.touched.description && form.errors.description}
-                className="input"
-              />
+              <TextField type="text" label="توضیحات" name="description" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.description} error={form.touched.description && Boolean(form.errors.description)} helperText={form.touched.description && form.errors.description} className="input" />
             </div>
             <div className="col-12 col-md-12 text-center my-3">
               <Button className="ms-1" variant="contained" color="success" type="submit">

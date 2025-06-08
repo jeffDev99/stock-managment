@@ -15,6 +15,7 @@ import { FaPencil } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
+import Cookies from "js-cookie";
 
 export default function Product() {
   const [product, setProduct] = useState([]);
@@ -36,11 +37,10 @@ export default function Product() {
       try {
         if (params.stockId === "all") {
           const res = await api.get("/api/Stock/get-all-goods");
-          console.log(res)
           setProduct(res.data);
         } else {
-          const res = await api.get(`/api/Stock/get-stock-goods/${params.stockId}`);
-          setProduct(res.data.$values);
+          const res = await api.get(`/api/Stock/getgoods-by-stock/${params.stockId}`);
+          setProduct(res.data);
         }
       } catch (e) {
         if (e.code === "ERR_NETWORK") {
@@ -97,7 +97,9 @@ export default function Product() {
       if (res.isConfirmed) {
         (async () => {
           try {
-            await api.delete(`/api/Stock/deletegood/${productID}`);
+            await api.post(`/api/Stock/deletegoods/${productID}`,undefined,{
+              Authorization: `Bearer ${Cookies.get("token")}`
+            });
             Swal.fire({
               title: "محصول مورد نظر با موفقیت حذف شد",
               text: "شما محصول مورد نظر را با موفقیت حذف کردید.",
@@ -175,7 +177,7 @@ export default function Product() {
                     <td>{index + 1}</td>
                     <td>{productItem.goodName}</td>
                     <td>{productItem.currentLocation}</td>
-                    <td>{stock.find((item) => item.id === productItem.stockId)?.stockName}</td>
+                    <td>{productItem.stockName}</td>
                     <td>
                       <div className="table-actions d-flex align-items-center">
                         <Button onClick={() => showHandler(productItem.id)} color="secondary" variant="contained" startIcon={<FaEye />} className="table-actions__btn">
@@ -217,7 +219,7 @@ export default function Product() {
                   </tr>
                   <tr>
                     <td>انبار</td>
-                    <td>{stock.find((item) => item.id === mainProduct.stockId)?.stockName}</td>
+                    <td>{mainProduct.stockName}</td>
                   </tr>
                   <tr>
                     <td>شماره محصول</td>
