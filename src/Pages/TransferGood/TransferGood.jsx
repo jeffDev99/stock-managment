@@ -61,14 +61,8 @@ export default function TransferGood() {
           toUserId: values.userId,
         };
         const response = await api.post("/api/GoodTransaction/transfer-goods", payload);
-        console.log(response.data); // برای نمایش پاسخ در کنسول
-        // تولید و دانلود فایل DOCX
+        console.log(response.data); 
         generateDocxReport(response.data);
-        resetForm();
-        // console.log("Payload to be sent:", payload); // برای نمایش در کنسول
-
-        // شبیه‌سازی یک پاسخ موفق
-        // await new Promise(resolve => setTimeout(resolve, 1000));
 
         Swal.fire({
           icon: "success",
