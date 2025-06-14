@@ -39,22 +39,24 @@ export default function NewUser() {
 
   const form = useFormik({
     initialValues: {
+      firstName: "",
+      lastName: "",
       phone: "",
       userName: "",
       password: "",
-      email: "",
       role: rols.length > 0 ? rols[0].userName : "",
     },
     onSubmit: (values) => {
       (async () => {
         try {
           setLoading(true);
-          const { phone, userName, password, email, role } = values;
+          const { phone, firstName, lastName, userName, password, role } = values;
           const response = await api.post("/api/Account/register", {
+            firstName,
+            lastName,
             phone,
             userName,
             password,
-            email,
             role,
           });
           if (response.status === 200) {
@@ -88,19 +90,21 @@ export default function NewUser() {
       })();
     },
     validationSchema: Yup.object().shape({
+      firstName: Yup.string().required("نام کاربری الزامی است"),
+      lastName: Yup.string().required("نام کاربری الزامی است"),
       phone: Yup.string().max(100, " نام باید حداکثر 100 کاراکتر باشد").required("شماره موبایل الزامی است"),
       userName: Yup.string().required("نام کاربری الزامی است"),
       password: Yup.string("رمز حتما باید رشته باشد").min(6, "طول رمز حداقل باید 6 کاراکتر باشد").required("رمز الزامی است"),
-      email: Yup.string().email("لطفا ایمیل معتبری وارد کنید").required("ایمیل الزامی است"),
       role: Yup.string().required("این فیلد الزامی است"),
     }),
   });
 
   const resetFormData = () => {
     form.setValues({
+      firstName: "",
+      lastName: "",
       userName: "",
       password: "",
-      email: "",
       phone: "",
       role: rols[0].name,
     });
@@ -123,19 +127,21 @@ export default function NewUser() {
         <form onSubmit={form.handleSubmit} dir="rtl">
           <div className="row align-items-center">
             <div className="col-12 col-md-4 mb-3">
+              <TextField type="text" label="نام" name="firstName" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.firstName} error={form.touched.firstName && Boolean(form.errors.firstName)} helperText={form.touched.firstName && form.errors.firstName} className="input" />
+            </div>
+            <div className="col-12 col-md-4 mb-3">
+              <TextField type="text" label="نام خانوادگی" name="lastName" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.lastName} error={form.touched.lastName && Boolean(form.errors.lastName)} helperText={form.touched.lastName && form.errors.lastName} className="input" />
+            </div>
+            <div className="col-12 col-md-4 mb-3">
               <TextField type="text" label="نام کاربری" name="userName" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.userName} error={form.touched.userName && Boolean(form.errors.userName)} helperText={form.touched.userName && form.errors.userName} className="input" />
             </div>
             <div className="col-12 col-md-4 mb-3">
               <TextField type="text" label="رمز" name="password" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.password} error={form.touched.password && Boolean(form.errors.password)} helperText={form.touched.password && form.errors.password} className="input" />
             </div>
             <div className="col-12 col-md-4 mb-3">
-              <TextField type="text" label="ایمیل" name="email" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.email} error={form.touched.email && Boolean(form.errors.email)} helperText={form.touched.email && form.errors.email} className="input" />
-            </div>
-            <div className="col-12 col-md-4 mb-3">
               <TextField type="text" label="شماره موبایل" name="phone" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.phone} error={form.touched.phone && Boolean(form.errors.phone)} helperText={form.touched.phone && form.errors.phone} className="input" />
             </div>
-
-            <div className="col-12 col-md-8 mb-3">
+            <div className="col-12 col-md-4 mb-3">
               <FormControl className="input" fullWidth error={form.touched.role && Boolean(form.errors.role)}>
                 <InputLabel id="demo-simple-select-label">نقش</InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select" value={form.values.role} name="role" label="شروع شده؟" onChange={form.handleChange} onBlur={form.handleBlur}>
