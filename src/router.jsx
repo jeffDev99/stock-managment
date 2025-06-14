@@ -17,6 +17,7 @@ import Shift from "./Pages/Shift/Shift";
 import AddShift from "./Pages/AddShift/AddShift";
 import Index from "./Pages/Index/Index.jsx";
 import TransferGood from "./Pages/TransferGood/TransferGood.jsx";
+import UploadSignedDocument from "./Pages/UploadSignedDocument/UploadSignedDocument.jsx";
 // Auth Components
 import Login from "./Pages/Login/Login";
 // import Register from "./Pages/Register/Register";
@@ -41,13 +42,18 @@ let routes = [
       { path: "stock", element: <Stock /> },
       { path: "addstock", element: <AddStock /> },
       { path: "editstock/:id", element: <EditStock /> },
+      { path: "editstock", element: <Navigate to="/dashboard/stock" /> },
       { path: "product/:stockId", element: <Product /> },
+      { path: "product", element: <Navigate to="/dashboard/stock" /> },
       { path: "addproduct", element: <AddProduct /> },
       { path: "editproduct/:id", element: <EditProduct /> },
+      { path: "editproduct", element: <Navigate to="/dashboard/stock" /> },
       { path: "shift", element: <Shift /> },
       { path: "addshift", element: <AddShift /> },
       { path: "dashboard", element: <Index /> },
       { path: "transfergood", element: <TransferGood /> },
+      { path: "UploadSignedDocument/:id", element: <UploadSignedDocument /> },
+      { path: "UploadSignedDocument", element: <Navigate to="/dashboard/transfergood" /> },
       { path: "*", element: <NotFound /> },
       // { path: "editshift/:id", element: <EditShift /> },
     ],
