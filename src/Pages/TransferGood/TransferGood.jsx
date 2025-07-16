@@ -7,6 +7,8 @@ import MultiSelectbox from "../../Components/MultiSelectbox/MultiSelectbox";
 import { CircularProgress, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from "@mui/material";
 import { generateDocxReport } from "../../Helpers/reportGenerator";
 import { useNavigate } from "react-router-dom";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 export default function TransferGood() {
   // State های مربوط به داده‌های اولیه فرم
@@ -83,7 +85,7 @@ export default function TransferGood() {
       </div>
     );
   }
-
+  console.log(allGoods)
   return (
     <div className="card shadow border-0 p-3">
       <h4 className="card__title">تخصیص محصول به کاربر</h4>
@@ -92,21 +94,41 @@ export default function TransferGood() {
         <div className="row align-items-centre mt-4">
           <div className="col-12 col-md-6 mb-3">
             <FormControl className="input" fullWidth error={formik.touched.goodIds && Boolean(formik.errors.goodIds)}>
-              <MultiSelectbox label="کالاها را انتخاب کنید" options={allGoods} selected={formik.values.goodIds} onChange={(ids) => formik.setFieldValue("goodIds", ids)} />
+              {/* <MultiSelectbox label="کالاها را انتخاب کنید" options={allGoods} selected={formik.values.goodIds} onChange={(ids) => formik.setFieldValue("goodIds", ids)} /> */}
+              {/* <Autocomplete
+                disablePortal
+                options={allGoods}
+                renderInput={(params) => <TextField {...params} label="کالاها را انتخاب کنید" />}
+              /> */}
+              <Autocomplete
+                multiple
+                disablePortal
+                options={allGoods}
+                getOptionLabel={(option) => option.goodName || ""}
+                value={formik.values.goodIds}
+                onChange={(event, newValue) => {
+                  formik.setFieldValue("goodIds", newValue);
+                }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => <TextField {...params} label="کالاها را انتخاب کنید" />}
+              />
               <FormHelperText>{formik.touched.goodIds && formik.errors.goodIds}</FormHelperText>
             </FormControl>
           </div>
 
           <div className="col-12 col-md-6 mb-3">
             <FormControl className="input" fullWidth error={formik.touched.userId && Boolean(formik.errors.userId)}>
-              <InputLabel id="user-select-label">کاربر تحویل‌گیرنده</InputLabel>
-              <Select labelId="user-select-label" name="userId" label="کاربر تحویل‌گیرنده" value={formik.values.userId} onChange={formik.handleChange} onBlur={formik.handleBlur}>
-                {users.map((user) => (
-                  <MenuItem key={user.id} value={user.id}>
-                    {user.userName}
-                  </MenuItem>
-                ))}
-              </Select>
+              <Autocomplete
+                disablePortal
+                options={users}
+                getOptionLabel={(option) => option.userName || ""}
+                value={formik.values.userId}
+                onChange={(event, newValue) => {
+                  formik.setFieldValue("userId", newValue);
+                }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => <TextField {...params} label="کاربر تحویل‌گیرنده" />}
+              />
               <FormHelperText>{formik.touched.userId && formik.errors.userId}</FormHelperText>
             </FormControl>
           </div>
