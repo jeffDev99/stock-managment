@@ -161,6 +161,7 @@ export default function Product() {
               <tr>
                 <th>ردیف</th>
                 <th>نام</th>
+                <th>کد اموال</th>
                 <th>محل فعلی</th>
                 <th>انبار</th>
                 <th>عملیات</th>
@@ -176,6 +177,7 @@ export default function Product() {
                   <tr key={productItem.id}>
                     <td>{index + 1}</td>
                     <td>{productItem.goodName}</td>
+                    <td>{productItem.serialNO}</td>
                     <td>{productItem.currentLocation}</td>
                     <td>{productItem.stockName}</td>
                     <td>
@@ -222,11 +224,7 @@ export default function Product() {
                     <td>{mainProduct.stockName}</td>
                   </tr>
                   <tr>
-                    <td>شماره محصول</td>
-                    <td>{mainProduct.goodNO}</td>
-                  </tr>
-                  <tr>
-                    <td>شماره سریال</td>
+                    <td>کد اموال</td>
                     <td>{mainProduct.serialNO}</td>
                   </tr>
                   <tr>

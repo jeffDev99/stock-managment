@@ -141,20 +141,7 @@ export default function AddStock() {
             <div className="col-12 col-md-6 mb-3">
               <TextField
                 type="text"
-                label="شماره محصول"
-                name="goodNO"
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
-                value={form.values.goodNO}
-                error={form.touched.goodNO && Boolean(form.errors.goodNO)}
-                helperText={form.touched.goodNO && form.errors.goodNO}
-                className="input"
-              />
-            </div>
-            <div className="col-12 col-md-6 mb-3">
-              <TextField
-                type="text"
-                label="سریال محصول"
+                label="کد اموال"
                 name="serialNO"
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}

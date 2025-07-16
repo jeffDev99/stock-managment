@@ -15,7 +15,6 @@ export default function TransferGood() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // دریافت اطلاعات اولیه (کالاها و کاربران)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,38 +37,34 @@ export default function TransferGood() {
     fetchData();
   }, []);
 
-  // راه‌اندازی Formik
   const formik = useFormik({
-    // مقادیر اولیه فرم
     initialValues: {
-      goodIds: [], // برای MultiSelectbox
-      userId: "", // برای Selectbox کاربر
+      goodIds: [],
+      userId: "",
     },
 
-    // اعتبارسنجی با Yup
     validationSchema: Yup.object({
       goodIds: Yup.array().min(1, "حداقل یک کالا باید انتخاب شود").required("انتخاب کالا الزامی است"),
       userId: Yup.string().required("انتخاب کاربر الزامی است"),
     }),
 
-    // منطق ثبت فرم
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        // فرض بر اینکه API شما به این شکل داده‌ها را دریافت می‌کند
         const payload = {
           goodIds: values.goodIds,
           toUserId: values.userId,
         };
         const response = await api.post("/api/GoodTransaction/transfer-goods", payload);
-        console.log(response.data); 
+        console.log(response.data);
         generateDocxReport(response.data);
+        formik.resetForm();
 
         Swal.fire({
           icon: "success",
           title: "انتقال با موفقیت انجام شد",
+        }).then(() => {
+          navigate(`/dashboard/UploadSignedDocument/${response.data.transferId}`);
         });
-        formik.resetForm();
-        // navigate("/some-success-page");
       } catch (error) {
         Swal.fire({
           icon: "error",
