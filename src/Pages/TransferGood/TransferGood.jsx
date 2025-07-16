@@ -42,19 +42,19 @@ export default function TransferGood() {
   const formik = useFormik({
     initialValues: {
       goodIds: [],
-      userId: "",
+      userId: null, 
     },
 
     validationSchema: Yup.object({
       goodIds: Yup.array().min(1, "حداقل یک کالا باید انتخاب شود").required("انتخاب کالا الزامی است"),
-      userId: Yup.string().required("انتخاب کاربر الزامی است"),
+      userId: Yup.object().nullable().required("انتخاب کاربر الزامی است"),
     }),
 
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const payload = {
-          goodIds: values.goodIds,
-          toUserId: values.userId,
+          goodIds: values.goodIds.map(good => good.id), 
+          toUserId: values.userId.id, 
         };
         const response = await api.post("/api/GoodTransaction/transfer-goods", payload);
         console.log(response.data);
@@ -94,12 +94,6 @@ export default function TransferGood() {
         <div className="row align-items-centre mt-4">
           <div className="col-12 col-md-6 mb-3">
             <FormControl className="input" fullWidth error={formik.touched.goodIds && Boolean(formik.errors.goodIds)}>
-              {/* <MultiSelectbox label="کالاها را انتخاب کنید" options={allGoods} selected={formik.values.goodIds} onChange={(ids) => formik.setFieldValue("goodIds", ids)} /> */}
-              {/* <Autocomplete
-                disablePortal
-                options={allGoods}
-                renderInput={(params) => <TextField {...params} label="کالاها را انتخاب کنید" />}
-              /> */}
               <Autocomplete
                 multiple
                 disablePortal

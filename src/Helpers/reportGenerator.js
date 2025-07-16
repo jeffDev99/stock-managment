@@ -47,4 +47,4 @@ export const generateDocxReport = (reportData) => {
         // دانلود فایل
         saveAs(out, ` سند-انتقال-${reportData.transferId}.docx`);
     });
-};
+}
