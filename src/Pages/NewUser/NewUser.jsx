@@ -143,7 +143,7 @@ export default function NewUser() {
             </div>
             <div className="col-12 col-md-4 mb-3">
               <FormControl className="input" fullWidth error={form.touched.role && Boolean(form.errors.role)}>
-                <InputLabel id="demo-simple-select-label">نقش</InputLabel>
+                <InputLabel id="demo-simple-select-label">سمت</InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select" value={form.values.role} name="role" label="شروع شده؟" onChange={form.handleChange} onBlur={form.handleBlur}>
                   {rols.map((item) => (
                     <MenuItem value={item.name} key={item.id}>
