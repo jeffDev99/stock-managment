@@ -24,6 +24,8 @@ import Login from "./Pages/Login/Login";
 
 // protected Components
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import Roles from "./Pages/roles/roles.jsx";
+import NewRole from "./Pages/NewRole/NewRole";
 
 // routes
 let routes = [
@@ -54,6 +56,8 @@ let routes = [
       { path: "transfergood", element: <TransferGood /> },
       { path: "UploadSignedDocument/:id", element: <UploadSignedDocument /> },
       { path: "UploadSignedDocument", element: <Navigate to="/dashboard/transfergood" /> },
+      { path: "roles", element: <Roles /> },
+      { path: "newRole", element: <NewRole /> },
       { path: "*", element: <NotFound /> },
       // { path: "editshift/:id", element: <EditShift /> },
     ],

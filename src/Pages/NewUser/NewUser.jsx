@@ -41,22 +41,20 @@ export default function NewUser() {
     initialValues: {
       firstName: "",
       lastName: "",
+      nationalCode: "",
       phone: "",
-      userName: "",
-      password: "",
-      role: rols.length > 0 ? rols[0].userName : "",
+      role: rols.length > 0 ? rols[0].name : "",
     },
     onSubmit: (values) => {
       (async () => {
         try {
           setLoading(true);
-          const { phone, firstName, lastName, userName, password, role } = values;
+          const { phone, firstName, lastName, nationalCode, role } = values;
           const response = await api.post("/api/Account/register", {
             firstName,
             lastName,
+            nationalCode,
             phone,
-            userName,
-            password,
             role,
           });
           if (response.status === 200) {
@@ -69,19 +67,11 @@ export default function NewUser() {
           }
         } catch (e) {
           if (e.status === 400) {
-            if (e.response.data[0].code === "PasswordTooShort") {
-              Swal.fire({
-                icon: "error",
-                title: "خطا در انجام عملیات",
-                text: "طول رمز حداقل باید 6 کاراکتر باشد",
-              });
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "خطا در انجام عملیات",
-                text: "نام کاربری تکراری است",
-              });
-            }
+            Swal.fire({
+              icon: "error",
+              title: "خطا در انجام عملیات",
+              text: e.response?.data?.message || "خطا در ثبت کاربر",
+            });
             form.resetForm();
           }
         } finally {
@@ -90,11 +80,10 @@ export default function NewUser() {
       })();
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required("نام کاربری الزامی است"),
-      lastName: Yup.string().required("نام کاربری الزامی است"),
-      phone: Yup.string().max(100, " نام باید حداکثر 100 کاراکتر باشد").required("شماره موبایل الزامی است"),
-      userName: Yup.string().required("نام کاربری الزامی است"),
-      password: Yup.string("رمز حتما باید رشته باشد").min(6, "طول رمز حداقل باید 6 کاراکتر باشد").required("رمز الزامی است"),
+      firstName: Yup.string().required("نام الزامی است"),
+      lastName: Yup.string().required("نام خانوادگی الزامی است"),
+      nationalCode: Yup.string().required("کد ملی الزامی است").length(10, "کد ملی باید 10 رقم باشد"),
+      phone: Yup.string().required("شماره موبایل الزامی است"),
       role: Yup.string().required("این فیلد الزامی است"),
     }),
   });
@@ -103,10 +92,9 @@ export default function NewUser() {
     form.setValues({
       firstName: "",
       lastName: "",
-      userName: "",
-      password: "",
+      nationalCode: "",
       phone: "",
-      role: rols[0].name,
+      role: rols.length > 0 ? rols[0].name : "",
     });
   };
 
@@ -133,10 +121,7 @@ export default function NewUser() {
               <TextField type="text" label="نام خانوادگی" name="lastName" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.lastName} error={form.touched.lastName && Boolean(form.errors.lastName)} helperText={form.touched.lastName && form.errors.lastName} className="input" />
             </div>
             <div className="col-12 col-md-4 mb-3">
-              <TextField type="text" label="نام کاربری" name="userName" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.userName} error={form.touched.userName && Boolean(form.errors.userName)} helperText={form.touched.userName && form.errors.userName} className="input" />
-            </div>
-            <div className="col-12 col-md-4 mb-3">
-              <TextField type="text" label="رمز" name="password" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.password} error={form.touched.password && Boolean(form.errors.password)} helperText={form.touched.password && form.errors.password} className="input" />
+              <TextField type="text" label="کد ملی" name="nationalCode" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.nationalCode} error={form.touched.nationalCode && Boolean(form.errors.nationalCode)} helperText={form.touched.nationalCode && form.errors.nationalCode} className="input" />
             </div>
             <div className="col-12 col-md-4 mb-3">
               <TextField type="text" label="شماره موبایل" name="phone" onChange={form.handleChange} onBlur={form.handleBlur} value={form.values.phone} error={form.touched.phone && Boolean(form.errors.phone)} helperText={form.touched.phone && form.errors.phone} className="input" />
