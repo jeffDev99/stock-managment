@@ -29,7 +29,7 @@ export default function AddStock() {
   useEffect(() => {
     const fetchStockData = async () => {
       try {
-        const res = await api.get(`/api/Stock/getgoodbyid/${id}`);
+        const res = await api.get(`/api/Stock/get-good-byid/${id}`);
         console.log(res)
         setInitialValues({
           goodName: res.data.goodName || "",
@@ -51,7 +51,7 @@ export default function AddStock() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await api.get(`/api/Stock/get-stocks`);
+        const res = await api.get(`/api/Stock/get-all-stocks`);
         setStocks(res.data);
       } catch (e) {
         if (e.code === "ERR_NETWORK") {

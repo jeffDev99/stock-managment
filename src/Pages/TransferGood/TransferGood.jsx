@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import api from "../../Services/config";
 import MultiSelectbox from "../../Components/MultiSelectbox/MultiSelectbox";
 import { CircularProgress, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from "@mui/material";
-import { generateDocxReport } from "../../Helpers/reportGenerator";
+import { generateDocxReport, generatePdfReport } from "../../Helpers/reportGenerator";
 import { useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -57,8 +57,10 @@ export default function TransferGood() {
           toUserId: values.userId.id, 
         };
         const response = await api.post("/api/GoodTransaction/transfer-goods", payload);
-        console.log(response.data);
-        generateDocxReport(response.data);
+        
+        // تولید و دانلود فایل PDF
+        await generatePdfReport(response.data);
+        
         formik.resetForm();
 
         Swal.fire({
