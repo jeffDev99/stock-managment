@@ -18,6 +18,8 @@ import AddShift from "./Pages/AddShift/AddShift";
 import Index from "./Pages/Index/Index.jsx";
 import TransferGood from "./Pages/TransferGood/TransferGood.jsx";
 import UploadSignedDocument from "./Pages/UploadSignedDocument/UploadSignedDocument.jsx";
+import Messages from "./Pages/Messages/Messages";
+import SentMessages from "./Pages/SentMessages/SentMessages";
 // Auth Components
 import Login from "./Pages/Login/Login";
 // import Register from "./Pages/Register/Register";
@@ -39,6 +41,8 @@ let routes = [
     ),
     children: [
       { path: "", element: <Navigate to={"dashboard"} /> },
+      { path: "messages", element: <Messages /> },
+      { path: "sent-messages", element: <SentMessages /> },
       { path: "Users", element: <Users /> },
       { path: "newUser", element: <NewUser /> },
       { path: "stock", element: <Stock /> },

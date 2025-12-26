@@ -66,9 +66,10 @@ export default function TransferGood() {
         Swal.fire({
           icon: "success",
           title: "انتقال با موفقیت انجام شد",
-        }).then(() => {
-          navigate(`/dashboard/UploadSignedDocument/${response.data.transferId}`);
-        });
+        })
+        // .then(() => {
+        //   navigate(`/dashboard/UploadSignedDocument/${response.data.transferId}`);
+        // });
       } catch (error) {
         Swal.fire({
           icon: "error",

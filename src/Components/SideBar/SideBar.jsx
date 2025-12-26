@@ -13,13 +13,14 @@ import { GrDropbox, GrUserSettings } from "react-icons/gr";
 import { BsBoxes } from "react-icons/bs";
 import { HiOutlineUsers } from "react-icons/hi";
 import { IoTimeOutline } from "react-icons/io5";
-import { MdMoreTime } from "react-icons/md";
+import { MdMoreTime, MdOutlineInbox, MdOutlineSend } from "react-icons/md";
 import { BsCameraReels } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import { GiMoneyStack } from "react-icons/gi";
 import { RiAdminLine } from "react-icons/ri";
 import { HiOutlineUser } from "react-icons/hi";
 import { GrProjects } from "react-icons/gr";
+import { MdOutlineMessage } from "react-icons/md";
 import "./SideBar.css";
 
 export default function SideBar() {
@@ -38,102 +39,102 @@ export default function SideBar() {
         { type: 'link', label: "تخصیص محصول به کاربر", path: "transfergood", icon: <RiUserReceived2Line /> },
       ],
     },
-    {
-      index: 4,
-      icon: <RiHomeOfficeLine />,
-      label: "اتوماسیون اداری",
-      subItems: [
-        {
-          type: 'submenu',
-          name: 'reports',
-          icon: <RiFileList3Line />,
-          label: 'گزارشات',
-          nestedItems: [
-            { label: "گزارش روزانه", path: "daily-report" },
-            { label: "گزارش محرمانه", path: "secret-report" },
-            { label: "گزارش ماهیانه", path: "monthly-report" },
-          ],
-        },
-        {
-          type: 'submenu',
-          name: 'automation_products',
-          icon: <GrDropbox />,
-          label: 'محصولات',
-          nestedItems: [
-            { label: "لیست محصولات", path: "product/all" },
-            { label: "اضافه کردن محصول جدید", path: "addproduct" },
-          ],
-        },
-      ],
-    },
-    {
-      index: 3,
-      icon: <HiOutlineUsers />,
-      label: "منابع انسانی",
-      subItems: [
-        {
-          type: 'submenu',
-          name: 'shifts',
-          icon: <IoTimeOutline />,
-          label: 'شیفت',
-          nestedItems: [
-            { label: "لیست شیفت ها", path: "shift", icon: <RiTimelineView /> },
-            { label: "اضافه کردن شیفت جدید", path: "addshift", icon: <MdMoreTime /> },
-          ],
-        },
-      ],
-    },
-    {
-      index: 6,
-      icon: <BsCameraReels />,
-      label: "فرهنگی",
-      subItems: [
-        {
-          type: 'submenu',
-          name: 'servants_committee',
-          icon: <AiOutlineUser />,
-          label: 'کمیته خادمین',
-          nestedItems: [
-            { label: "لیست خادمین", path: "servants" },
-            { label: "اضافه کردن خادم جدید", path: "addservant" },
-          ],
-        },
-      ],
-    },
-    {
-      index: 2,
-      icon: <GiMoneyStack />,
-      label: "مالی",
-      subItems: [
-        {
-          type: 'submenu',
-          name: 'register_invoice',
-          icon: <BsBoxes />,
-          label: 'ثبت فاکتور', // بر اساس کد شما، آیتم‌های داخلی مربوط به انبار است
-          nestedItems: [
-            { label: "لیست انبار ها", path: "stock" },
-            { label: "اضافه کردن انبار جدید", path: "addstock" },
-          ],
-        },
-        {
-          type: 'submenu',
-          name: 'prepare_invoice',
-          icon: <GrDropbox />,
-          label: 'تهیه فاکتور',
-          nestedItems: [
-            { label: "لیست محصولات", path: "product/all" },
-            { label: "اضافه کردن محصول جدید", path: "addproduct" },
-          ],
-        },
-      ],
-    },
-    {
-      index: 7,
-      icon: <GrProjects />,
-      label: 'پروژه ها',
-      subItems: [{ type: 'link', label: "لیست پروژه ها", path: "projects", icon: <GrProjects /> },]
+    // {
+    //   index: 4,
+    //   icon: <RiHomeOfficeLine />,
+    //   label: "اتوماسیون اداری",
+    //   subItems: [
+    //     {
+    //       type: 'submenu',
+    //       name: 'reports',
+    //       icon: <RiFileList3Line />,
+    //       label: 'گزارشات',
+    //       nestedItems: [
+    //         { label: "گزارش روزانه", path: "daily-report" },
+    //         { label: "گزارش محرمانه", path: "secret-report" },
+    //         { label: "گزارش ماهیانه", path: "monthly-report" },
+    //       ],
+    //     },
+    //     // {
+    //     //   type: 'submenu',
+    //     //   name: 'automation_products',
+    //     //   icon: <GrDropbox />,
+    //     //   label: 'محصولات',
+    //     //   nestedItems: [
+    //     //     { label: "لیست محصولات", path: "product/all" },
+    //     //     { label: "اضافه کردن محصول جدید", path: "addproduct" },
+    //     //   ],
+    //     // },
+    //   ],
+    // },
+    // {
+    //   index: 3,
+    //   icon: <HiOutlineUsers />,
+    //   label: "منابع انسانی",
+    //   subItems: [
+    //     {
+    //       type: 'submenu',
+    //       name: 'shifts',
+    //       icon: <IoTimeOutline />,
+    //       label: 'شیفت',
+    //       nestedItems: [
+    //         { label: "لیست شیفت ها", path: "shift", icon: <RiTimelineView /> },
+    //         { label: "اضافه کردن شیفت جدید", path: "addshift", icon: <MdMoreTime /> },
+    //       ],
+    //     },
+    //   ],
+    // },
+    // {
+    //   index: 6,
+    //   icon: <BsCameraReels />,
+    //   label: "فرهنگی",
+    //   subItems: [
+    //     {
+    //       type: 'submenu',
+    //       name: 'servants_committee',
+    //       icon: <AiOutlineUser />,
+    //       label: 'کمیته خادمین',
+    //       nestedItems: [
+    //         { label: "لیست خادمین", path: "servants" },
+    //         { label: "اضافه کردن خادم جدید", path: "addservant" },
+    //       ],
+    //     },
+    //   ],
+    // },
+    // {
+    //   index: 2,
+    //   icon: <GiMoneyStack />,
+    //   label: "مالی",
+    //   subItems: [
+    //     {
+    //       type: 'submenu',
+    //       name: 'register_invoice',
+    //       icon: <BsBoxes />,
+    //       label: 'ثبت فاکتور', // بر اساس کد شما، آیتم‌های داخلی مربوط به انبار است
+    //       nestedItems: [
+    //         { label: "لیست انبار ها", path: "stock" },
+    //         { label: "اضافه کردن انبار جدید", path: "addstock" },
+    //       ],
+    //     },
+    //     {
+    //       type: 'submenu',
+    //       name: 'prepare_invoice',
+    //       icon: <GrDropbox />,
+    //       label: 'تهیه فاکتور',
+    //       nestedItems: [
+    //         { label: "لیست محصولات", path: "product/all" },
+    //         { label: "اضافه کردن محصول جدید", path: "addproduct" },
+    //       ],
+    //     },
+    //   ],
+    // },
+    // {
+    //   index: 7,
+    //   icon: <GrProjects />,
+    //   label: 'پروژه ها',
+    //   subItems: [{ type: 'link', label: "لیست پروژه ها", path: "projects", icon: <GrProjects /> },]
 
-    },
+    // },
     {
       index: 5,
       icon: <RiAdminLine />,
@@ -153,7 +154,15 @@ export default function SideBar() {
         // },
       ],
     },
-
+    {
+      index: 8,
+      icon: <MdOutlineMessage />,
+      label: "پیام رسان",
+      subItems: [
+        { type: 'link', label: "صندوق ورودی", path: "messages", icon: <MdOutlineInbox /> },
+        { type: 'link', label: "ارسال شده ها", path: "sent-messages", icon: <MdOutlineSend /> },
+      ],
+    },
   ];
 
   const handleMainMenuClick = (index) => {

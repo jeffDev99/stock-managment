@@ -1,0 +1,16 @@
+.table-responsive td {
+  vertical-align: middle;
+  font-size: 14px;
+  text-align: center;
+}
+.table-actions__btn {
+  margin: 0 3px !important;
+}
+
+.table-actions__btn span {
+  margin-left: 0.3rem;
+}
+.MuiPagination-ul.css-wjh20t-MuiPagination-ul li button svg {
+  transform: rotate(180deg) !important;
+}
+
